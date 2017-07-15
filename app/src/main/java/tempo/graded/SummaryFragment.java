@@ -64,7 +64,7 @@ public class SummaryFragment extends DialogFragment {
             public void run() {
                 // TODO Auto-generated method stub
                 while (pStatus < pSuccess) {
-                    pStatus += 0.1;
+                    pStatus += 1.1;
 
                     handler.post(new Runnable() {
 
@@ -72,14 +72,14 @@ public class SummaryFragment extends DialogFragment {
                         public void run() {
                             // TODO Auto-generated method stub
                             mProgress.setProgress((int)pStatus);
-                            tv.setText(new DecimalFormat("##.##").format(pStatus)+"%99.");
+                            tv.setText(new DecimalFormat("##.##").format(pStatus)+"%");
 
                         }
                     });
                     try {
                         // Sleep for 200 milliseconds.
                         // Just to display the progress slowly
-                        Thread.sleep(5); //thread will take approx 3 seconds to finish
+                        Thread.sleep(3); //thread will take approx 3 seconds to finish
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
