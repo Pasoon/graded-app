@@ -1,10 +1,10 @@
 package tempo.graded;
 
+import android.app.DialogFragment;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,11 +51,6 @@ public class SummaryFragment extends DialogFragment {
         mProgress.setProgressDrawable(drawable);
         pSuccess = gradeNeeded;
 
-
-      /*  ObjectAnimator animation = ObjectAnimator.ofInt(mProgress, "progress", 0, 100);
-        animation.setDuration(50000);
-        animation.setInterpolator(new DecelerateInterpolator());
-        animation.start();*/
 
         tv = (TextView) rootView.findViewById(R.id.tv);
         new Thread(new Runnable() {

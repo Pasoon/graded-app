@@ -49,8 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center_horizontal"
-            android:onClick="quickGradeButtonClicked"
+            android:gravity="center"
             android:text="Quick Grade" />
 
     </LinearLayout>
