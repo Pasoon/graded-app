@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorAccent">#1e88e5</color>
+    <color name="colorPrimaryDark">#08457b</color>
+    <color name="primary_dark_material_light">#292929</color>
+    <color name="colorPrimary">#2ba1e6</color>
+    <color name="grade_a">#26ef26</color>
+    <color name="grade_b">#e9f414</color>
+    <color name="grade_c">#f49a14</color>
+    <color name="grade_d">#f45b14</color>
+    <color name="grade_f">#252525</color>
+</resources>
