@@ -91,9 +91,10 @@ public class QuickGradeFrag extends Fragment {
                 Bundle args = new Bundle();
                 args.putDouble("Goal", goalDouble);
                 args.putDouble("Grade Needed", gradeNeeded);
-                frag.setCancelable(true);
                 frag.setArguments(args);
-                frag.show(getFragmentManager(), frag.getTag());
+                android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.progressFrag, frag);
+                transaction.commit();
             }
         }
     }

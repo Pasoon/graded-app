@@ -1,6 +1,6 @@
 package tempo.graded;
 
-import android.app.DialogFragment;
+import android.app.Fragment;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -18,13 +18,12 @@ import java.text.DecimalFormat;
  * Created by Pasoon on 2017-07-12.
  */
 
-public class SummaryFragment extends DialogFragment {
+public class SummaryFragment extends Fragment {
 
     double pStatus = 0;
     double pSuccess = 0;
     private Handler handler = new Handler();
     TextView tv;
-    TextView goalTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,11 +36,6 @@ public class SummaryFragment extends DialogFragment {
 
         System.out.println(goal);
         System.out.println(gradeNeeded);
-
-        goalTextView = (TextView)rootView.findViewById(R.id.zarif);
-
-        goalTextView.setText("To get a overall mark of "+new DecimalFormat("##.##").format(Double.parseDouble(goal.toString()))+"% you need to score at least:");
-
         Resources res = getResources();
         Drawable drawable = res.getDrawable(R.drawable.circularprogress);
         final ProgressBar mProgress = (ProgressBar) rootView.findViewById(R.id.circularProgressbar);
@@ -74,7 +68,7 @@ public class SummaryFragment extends DialogFragment {
                     try {
                         // Sleep for 200 milliseconds.
                         // Just to display the progress slowly
-                        Thread.sleep(3); //thread will take approx 3 seconds to finish
+                        Thread.sleep(8); //thread will take approx 5 seconds to finish
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

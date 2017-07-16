@@ -10,26 +10,32 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_gravity="center"
-        android:text="ADD A COURSE"
+        android:text="Course Information"
         android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textColor="@color/colorPrimary"
         android:textSize="20sp"
-        android:textAppearance="@style/TextAppearance.AppCompat" />
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/CourseNameInput"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Course Name"
-        android:inputType="textPersonName" />
+        android:hint="Calculus 1"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textAllCaps="false" />
 
     <EditText
         android:id="@+id/CourseCodeInput"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Course Code"
-        android:inputType="textPersonName" />
+        android:hint="MAT1337"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/Ok"
@@ -37,6 +43,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="24dp"
-        android:text="Ok" />
+        android:text="Add" />
 
 </LinearLayout>
