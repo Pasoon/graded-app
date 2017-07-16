@@ -8,23 +8,21 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="course hub frag"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
         <ListView
             android:id="@+id/courseList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/buttontest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="13dp"
+        android:onClick="addCourseButtonClicked"
+        android:text="add course" />
 
 </RelativeLayout>

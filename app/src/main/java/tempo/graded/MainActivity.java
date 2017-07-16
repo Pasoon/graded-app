@@ -1,5 +1,6 @@
 package tempo.graded;
 
+
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -26,7 +28,6 @@ public class MainActivity extends AppCompatActivity
     private Realm realm;
     CourseAdapter adapter;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -50,17 +51,6 @@ public class MainActivity extends AppCompatActivity
         transaction.commit();
     }
 
-    private void initListView() {
-        adapter = new CourseAdapter(this,courseResults);
-        mListView = (ListView) findViewById(R.id.courseList);
-        mListView.setAdapter(adapter);
-    }
-
-    private void getCourses(){
-        courseResults = realm.where(Course.class).findAll();;
-        Log.i("Get Courses", "Got all courses.");
-    }
-
      //Overwrite default back press to also close drawer
     @Override
     public void onBackPressed() {
@@ -70,6 +60,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+
     }
 
     // Handle navigation view item clicks here.

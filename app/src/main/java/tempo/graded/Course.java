@@ -5,6 +5,7 @@ import java.util.List;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 /**
  * Created by Pasoon on 2017-07-12.
@@ -38,6 +39,8 @@ public class Course extends RealmObject {
     public long getID() {
         return id;
     }
+
+    public void setID(long id){ this.id = id; }
 
     public String getCourseCode() {
         return courseCode;
