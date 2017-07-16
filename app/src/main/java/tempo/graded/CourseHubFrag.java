@@ -1,7 +1,6 @@
 package tempo.graded;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -74,7 +73,7 @@ public class CourseHubFrag extends Fragment {
             @Override
             public void onClick(View v)
             {
-                Log.i("quickGrade Button", "Button Clicked");
+                Log.i("Add a Course", "Button Clicked");
                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
                 View view = getActivity().getLayoutInflater().inflate(R.layout.add_course_frag,null);
 
@@ -102,14 +101,25 @@ public class CourseHubFrag extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
-                SelectedCourseFrag frag = new SelectedCourseFrag();
-                android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.content_frame, frag);
-                transaction.commit();
-
+                //Send the course selected and open the coursePage fragment
+                Course selectedCourse = courseResults.get(position);
+                openCoursePage(selectedCourse);
             }
         });
         return rootView;
+    }
+
+    private void openCoursePage(Course course){
+        Long id = course.getID();
+        Log.i("SelectedCourse ID", ""+id);
+        Bundle args = new Bundle();
+        //Put a list of deliverables
+        args.putLong("CourseID", id);
+        SelectedCourseFrag frag = new SelectedCourseFrag();
+        frag.setArguments(args);
+        android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.content_frame, frag);
+        transaction.commit();
     }
 
     private void initListView() {
@@ -134,7 +144,6 @@ public class CourseHubFrag extends Fragment {
             nextId = currentIdNum.intValue() + 1;
         }
 
-
         Course course = realm.createObject(Course.class, nextId);
         course.setName(courseName.getText().toString());
         course.setCourseCode(courseCode.getText().toString());
@@ -153,7 +162,7 @@ public class CourseHubFrag extends Fragment {
 
         }
         else{
-            Toast.makeText(getActivity(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Please fill in all fields.", Toast.LENGTH_SHORT).show();
         }
     }
 
