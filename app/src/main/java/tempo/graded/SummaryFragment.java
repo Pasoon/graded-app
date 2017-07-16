@@ -68,7 +68,7 @@ public class SummaryFragment extends Fragment {
                     try {
                         // Sleep for 200 milliseconds.
                         // Just to display the progress slowly
-                        Thread.sleep(8); //thread will take approx 5 seconds to finish
+                        Thread.sleep(20); //thread will take approx 5 seconds to finish
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
