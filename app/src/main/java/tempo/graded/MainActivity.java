@@ -20,7 +20,7 @@ import io.realm.RealmResults;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    Toolbar toolbar;
+    public Toolbar toolbar;
     private RealmResults<Course> courseResults;
     private ListView mListView;
     private Realm realm;
