@@ -1,12 +1,14 @@
 package tempo.graded;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -34,6 +36,7 @@ public class CourseHubFrag extends Fragment {
     CourseAdapter adapter;
     private View rootView;
     private AlertDialog dialog;
+    private ListView courseList;
 
 
     public static CourseHubFrag newInstance() {
@@ -89,6 +92,21 @@ public class CourseHubFrag extends Fragment {
                 alertBuilder.setView(view);
                 dialog = alertBuilder.create();
                 dialog.show();
+            }
+        });
+
+
+        courseList = (ListView) rootView.findViewById(R.id.courseList);
+
+        courseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                SelectedCourseFrag frag = new SelectedCourseFrag();
+                android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.content_frame, frag);
+                transaction.commit();
+
             }
         });
         return rootView;

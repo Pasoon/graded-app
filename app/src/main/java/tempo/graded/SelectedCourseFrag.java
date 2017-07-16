@@ -2,6 +2,7 @@ package tempo.graded;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.EditText;
 
 public class SelectedCourseFrag extends Fragment {
 
+    private ViewPager myPager;
+
     public static SelectedCourseFrag newInstance() {
         SelectedCourseFrag fragment = new SelectedCourseFrag();
         return fragment;
@@ -24,6 +27,7 @@ public class SelectedCourseFrag extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
 
@@ -31,6 +35,7 @@ public class SelectedCourseFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.selected_course_frag, container, false);
+
         return rootView;
     }
 }
