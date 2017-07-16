@@ -10,23 +10,18 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public Toolbar toolbar;
-    private RealmResults<Course> courseResults;
-    private ListView mListView;
-    private Realm realm;
-    CourseAdapter adapter;
+    private TextView titleText;
+    private ImageButton add;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +41,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart(){
         super.onStart();
+        titleText = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        add = (ImageButton) toolbar.findViewById(R.id.addItem);
+        titleText.setText("course hub");
+        add.setVisibility(View.VISIBLE);
         android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.content_frame, CourseHubFrag.newInstance());
         transaction.commit();
@@ -67,19 +66,21 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         Fragment selectedFragment = null;
-        TextView text = (TextView) toolbar.findViewById(R.id.toolbar_title);
         switch (item.getItemId()) {
             case R.id.course_hub_layout:
-                text.setText("course hub");
+                titleText.setText("course hub");
+                add.setVisibility(View.VISIBLE);
                 selectedFragment = CourseHubFrag.newInstance();
                 break;
             case R.id.quick_grade_layout:
+                titleText.setText("quick grade");
+                add.setVisibility(View.GONE);
                 selectedFragment = QuickGradeFrag.newInstance();
-                text.setText("quick grade");
                 break;
             case R.id.add_course_layout:
+                titleText.setText("add course");
+                add.setVisibility(View.GONE);
                 selectedFragment= AddCourseFrag.newInstance();
-                text.setText("add course");
                 break;
         }
         android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();

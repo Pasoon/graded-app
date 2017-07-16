@@ -9,12 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
-import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 /**
@@ -25,7 +25,7 @@ public class CourseHubFrag extends Fragment {
 
     private EditText courseName;
     private EditText courseCode;
-    private Button addCourseBtn;
+    private ImageButton addCourseBtn;
     private Button okBtn;
 
     private RealmResults<Course> courseResults;
@@ -65,7 +65,7 @@ public class CourseHubFrag extends Fragment {
         };
         courseResults.addChangeListener(changeListener);
 
-        addCourseBtn = (Button) rootView.findViewById(R.id.buttontest);
+        addCourseBtn = (ImageButton) getActivity().findViewById(R.id.addItem);
         addCourseBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
