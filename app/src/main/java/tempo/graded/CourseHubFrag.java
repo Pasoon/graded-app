@@ -9,7 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 
 /**
  * Created by Zarif on 2017-07-12.
@@ -22,6 +28,14 @@ public class CourseHubFrag extends Fragment {
     private Button addCourseBtn;
     private Button okBtn;
 
+    private RealmResults<Course> courseResults;
+    private ListView mListView;
+    private Realm realm;
+    CourseAdapter adapter;
+    private View rootView;
+    private AlertDialog dialog;
+
+
     public static CourseHubFrag newInstance() {
         CourseHubFrag fragment = new CourseHubFrag();
         return fragment;
@@ -30,15 +44,28 @@ public class CourseHubFrag extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Realm.init(getActivity());
+        //RealmConfiguration configuration = new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build();
+        //Realm.deleteRealm(configuration); //For flushing Realm DB
+        realm = Realm.getDefaultInstance();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.course_hub_frag, container, false);
+        rootView = inflater.inflate(R.layout.course_hub_frag, container, false);
+
+        getCourses();
+        initListView();
+        RealmChangeListener changeListener = new RealmChangeListener() {
+            @Override
+            public void onChange(Object element) {
+                adapter.notifyDataSetChanged();
+            }
+        };
+        courseResults.addChangeListener(changeListener);
 
         addCourseBtn = (Button) rootView.findViewById(R.id.buttontest);
-
         addCourseBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -54,28 +81,62 @@ public class CourseHubFrag extends Fragment {
 
                 okBtn.setOnClickListener(new View.OnClickListener(){
                     @Override
-                    public void onClick(View ßview){
-                        if(!courseName.getText().toString().isEmpty() && !courseCode.getText().toString().isEmpty()){
-                            Course course = new Course();
-                            course.setName(courseName.getText().toString());
-                            course.setCourseCode(courseCode.getText().toString());
-                            Toast.makeText(getActivity(), "Course Added!", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            Toast.makeText(getActivity(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
-                        }
+                    public void onClick(View view){
+                        okBtnClicked();
                     }
                 });
 
                 alertBuilder.setView(view);
-                AlertDialog dialog = alertBuilder.create();
+                dialog = alertBuilder.create();
                 dialog.show();
             }
         });
         return rootView;
     }
 
+    private void initListView() {
+        adapter = new CourseAdapter(getActivity(),courseResults);
+        mListView = (ListView) rootView.findViewById(R.id.courseList);
+        mListView.setAdapter(adapter);
+    }
+
+    private void getCourses(){
+        courseResults = realm.where(Course.class).findAll();
+        Log.i("Get Courses", "Got all courses.");
+    }
+
+    private void addCourseToRealm(){
+        realm.beginTransaction();
+
+        Number currentIdNum = realm.where(Course.class).max("id");
+        int nextId;
+        if(currentIdNum == null) {
+            nextId = 1;
+        } else {
+            nextId = currentIdNum.intValue() + 1;
+        }
 
 
+        Course course = realm.createObject(Course.class, nextId);
+        course.setName(courseName.getText().toString());
+        course.setCourseCode(courseCode.getText().toString());
+
+        realm.commitTransaction();
+    }
+
+
+
+    public void okBtnClicked(){
+
+        if(!courseName.getText().toString().isEmpty() && !courseCode.getText().toString().isEmpty()){
+            addCourseToRealm();
+            Toast.makeText(getActivity(), "Course Added!", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+
+        }
+        else{
+            Toast.makeText(getActivity(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }

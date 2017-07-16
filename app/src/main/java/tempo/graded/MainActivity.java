@@ -23,10 +23,6 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Toolbar toolbar;
-    private RealmResults<Course> courseResults;
-    private ListView mListView;
-    private Realm realm;
-    CourseAdapter adapter;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +49,6 @@ public class MainActivity extends AppCompatActivity
         android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.content_frame, CourseHubFrag.newInstance());
         transaction.commit();
-    }
-
-    private void initListView() {
-        adapter = new CourseAdapter(this,courseResults);
-        mListView = (ListView) findViewById(R.id.courseList);
-        mListView.setAdapter(adapter);
-    }
-
-    private void getCourses(){
-        courseResults = realm.where(Course.class).findAll();;
-        Log.i("Get Courses", "Got all courses.");
     }
 
      //Overwrite default back press to also close drawer
