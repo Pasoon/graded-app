@@ -1,12 +1,8 @@
 package tempo.graded;
 
-import java.util.List;
-
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-
 
 /**
  * Created by Pasoon on 2017-07-12.
@@ -17,7 +13,6 @@ public class Course extends RealmObject {
     @PrimaryKey
     private long id;
     private String name;
-
     private String courseCode;
     private RealmList<Deliverable> assignments;
     private RealmList<Deliverable> labs;
@@ -41,8 +36,6 @@ public class Course extends RealmObject {
         return id;
     }
 
-    public void setID(long id){ this.id = id; }
-
     public String getCourseCode() {
         return courseCode;
     }
@@ -60,7 +53,5 @@ public class Course extends RealmObject {
     public RealmList<Deliverable> getTests(){
         return tests;
     }
-
-
 
 }
