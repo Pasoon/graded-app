@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmList;
 
 
@@ -34,6 +35,11 @@ public class SelectedCourseFrag extends Fragment {
     private EditText DeliverableWeight;
     private AlertDialog dialog;
     private Course course;
+    private DeliverableAdapter adapterAssignment;
+    private DeliverableAdapter adapterLabs;
+    private DeliverableAdapter adapterTest;
+
+
 
 
     @Override
@@ -41,8 +47,7 @@ public class SelectedCourseFrag extends Fragment {
         super.onCreate(savedInstanceState);
         Realm.init(getActivity());
         realm = Realm.getDefaultInstance();
-        Long id = getArguments().getLong("CourseID");
-        course = realm.where(Course.class).equalTo("id", id).findFirst();
+
     }
 
 
@@ -50,8 +55,19 @@ public class SelectedCourseFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.selected_course_frag, container, false);
+        Long id = getArguments().getLong("CourseID");
+        course = realm.where(Course.class).equalTo("id", id).findFirst();
         setLayout();
         initListViews();
+        RealmChangeListener changeListener = new RealmChangeListener() {
+            @Override
+            public void onChange(Object element) {
+                adapterAssignment.notifyDataSetChanged();
+                adapterLabs.notifyDataSetChanged();
+                adapterTest.notifyDataSetChanged();
+            }
+        };
+        course.addChangeListener(changeListener);
         ImageButton addBtn = (ImageButton) getActivity().findViewById(R.id.addItem);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,8 +85,7 @@ public class SelectedCourseFrag extends Fragment {
 
         DeliverableType = (Spinner) view.findViewById(R.id.DeliverableTypeSpinner);
         String[] items = new String[]{"Assignment", "Lab", "Test"};
-        ArrayAdapter<String> adapter;
-        adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
         DeliverableType.setAdapter(adapter);
         DeliverableName = (EditText) view.findViewById(R.id.DeliverableNameInput);
         DeliverableWeight = (EditText) view.findViewById(R.id.DeliverableWeightInput);
@@ -103,9 +118,9 @@ public class SelectedCourseFrag extends Fragment {
         RealmList<Deliverable> labs = course.getLabs();
         RealmList<Deliverable> tests = course.getTests();
 
-        DeliverableAdapter adapterAssignment = new DeliverableAdapter(getActivity(), assignments);
-        DeliverableAdapter adapterLabs = new DeliverableAdapter(getActivity(), labs);
-        DeliverableAdapter adapterTest = new DeliverableAdapter(getActivity(), tests);
+        adapterAssignment = new DeliverableAdapter(getActivity(), assignments);
+        adapterLabs = new DeliverableAdapter(getActivity(), labs);
+        adapterTest = new DeliverableAdapter(getActivity(), tests);
 
         ListView assignmentsListView = (ListView) rootView.findViewById(R.id.assignmentsList);
         ListView labsListView = (ListView) rootView.findViewById(R.id.LabsList);

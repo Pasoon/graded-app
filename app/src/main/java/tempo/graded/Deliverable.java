@@ -17,12 +17,6 @@ public class Deliverable extends RealmObject {
     private double weight;
     private double grade;
 
-    public Deliverable(String name, double weight, String type) {
-        this.name = name;
-        this.weight = weight;
-        this.type = type;
-    }
-
     public Deliverable(){
     }
 
