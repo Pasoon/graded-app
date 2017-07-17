@@ -8,11 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +38,11 @@ public class SelectedCourseFrag extends Fragment {
     private DeliverableAdapter adapterAssignment;
     private DeliverableAdapter adapterLabs;
     private DeliverableAdapter adapterTest;
+    private ImageButton toggleTests;
+    private ImageButton toggleLabs;
+    private ImageButton toggleAssignments;
+
+
 
 
 
@@ -58,18 +63,6 @@ public class SelectedCourseFrag extends Fragment {
         Long id = getArguments().getLong("CourseID");
         course = realm.where(Course.class).equalTo("id", id).findFirst();
         setLayout();
-        initListViews();
-
-        RealmChangeListener changeListener = new RealmChangeListener() {
-            @Override
-            public void onChange(Object element) {
-                adapterAssignment.notifyDataSetChanged();
-                adapterLabs.notifyDataSetChanged();
-                adapterTest.notifyDataSetChanged();
-            }
-        };
-        course.addChangeListener(changeListener);
-
         ImageButton addBtn = (ImageButton) getActivity().findViewById(R.id.addItem);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,15 +72,15 @@ public class SelectedCourseFrag extends Fragment {
             }
         });
 
-        assignmentsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
-                //Send the course selected and open the coursePage fragment
-                Course selectedCourse = courseResults.get(position);
-                openCoursePage(selectedCourse);
-            }
-        });
+//        assignmentsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position,
+//                                    long id) {
+//                //Send the course selected and open the coursePage fragment
+//                Course selectedCourse = courseResults.get(position);
+//                openCoursePage(selectedCourse);
+//            }
+//        });
         return rootView;
     }
 
@@ -115,14 +108,74 @@ public class SelectedCourseFrag extends Fragment {
     }
 
     private void setLayout() {
+        //Setup action bar information
         String name = course.getName();
         String code = course.getCourseCode();
         TextView courseName = (TextView) rootView.findViewById(R.id.CourseName);
         courseName.setText(name);
+
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         TextView titleText = (TextView) toolbar.findViewById(R.id.toolbar_title);
         titleText.setText(code);
+
         //getCourseGrade, get CourseCompletion, getCourseAverage should all be called
+
+
+        //setup list views
+        initListViews();
+
+        //setup expandable buttons
+        setUpAssignmentExpandableLists();
+        setUpLabsExpandableLists();
+        setUpTestsExpandableLists();
+
+    }
+
+    private void toggleVisibilityAndSetCaret(LinearLayout layout, ImageButton toggle){
+        if(layout.getVisibility() == View.GONE) {
+            layout.setVisibility(View.VISIBLE);
+            toggle.setImageResource(R.drawable.expand_up);
+        }
+        else {
+            layout.setVisibility(View.GONE);
+            toggle.setImageResource(R.drawable.expand_down);
+        }
+    }
+
+    private void setUpTestsExpandableLists() {
+        toggleTests = (ImageButton) rootView.findViewById(R.id.toggleTests);
+        toggleTests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("Tests Button", "Clicked");
+                LinearLayout tests = (LinearLayout) rootView.findViewById(R.id.tests);
+                 toggleVisibilityAndSetCaret(tests, toggleTests);
+            }
+        });
+    }
+
+    private void setUpLabsExpandableLists() {
+        toggleLabs = (ImageButton) rootView.findViewById(R.id.toggleLabs);
+        toggleLabs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("Labs Button", "Clicked");
+                LinearLayout labs = (LinearLayout) rootView.findViewById(R.id.labs);
+                 toggleVisibilityAndSetCaret(labs, toggleLabs);
+            }
+        });
+    }
+
+    private void setUpAssignmentExpandableLists() {
+        toggleAssignments = (ImageButton) rootView.findViewById(R.id.toggleAssignment);
+        toggleAssignments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("Assignment Button", "Clicked");
+                LinearLayout assignments = (LinearLayout) rootView.findViewById(R.id.assignments);
+                 toggleVisibilityAndSetCaret(assignments, toggleAssignments);
+            }
+        });
     }
 
     private void initListViews() {
@@ -144,6 +197,16 @@ public class SelectedCourseFrag extends Fragment {
         assignmentsListView.setAdapter(adapterAssignment);
         labsListView.setAdapter(adapterLabs);
         testsListView.setAdapter(adapterTest);
+
+        RealmChangeListener changeListener = new RealmChangeListener() {
+            @Override
+            public void onChange(Object element) {
+                adapterAssignment.notifyDataSetChanged();
+                adapterLabs.notifyDataSetChanged();
+                adapterTest.notifyDataSetChanged();
+            }
+        };
+        course.addChangeListener(changeListener);
     }
 
     private void createDeliverable(){
@@ -166,16 +229,17 @@ public class SelectedCourseFrag extends Fragment {
         deliverable.setName(dN);
         deliverable.setType(dT);
         deliverable.setWeight(dW);
-        if(dT.equals("Assignment")){
-            course.getAssignments().add(deliverable);
+        switch (dT) {
+            case "Assignment":
+                course.getAssignments().add(deliverable);
+                break;
+            case "Lab":
+                course.getLabs().add(deliverable);
+                break;
+            case "Test":
+                course.getTests().add(deliverable);
+                break;
         }
-        else if(dT.equals("Lab")){
-            course.getLabs().add(deliverable);
-        }
-        else if(dT.equals("Test")){
-            course.getTests().add(deliverable);
-        }
-
         realm.commitTransaction();
     }
 
