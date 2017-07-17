@@ -3,4 +3,108 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:text="Deliverable Information"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:text="Type"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="17sp" />
+
+        <Spinner
+            android:id="@+id/DeliverableTypeSpinner"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.25" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:ems="7"
+            android:text="Name"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/DeliverableNameInput"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.25"
+            android:ems="7"
+            android:hint="Project Phase 1"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:ems="7"
+            android:text="Weight"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/DeliverableWeightInput"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.25"
+            android:ems="7"
+            android:hint="%"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/Ok"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="24dp"
+        android:text="Add" />
+
 </LinearLayout>
