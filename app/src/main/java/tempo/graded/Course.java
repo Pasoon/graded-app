@@ -14,9 +14,9 @@ public class Course extends RealmObject {
     private long id;
     private String name;
     private String courseCode;
-    private RealmList<Deliverable> assignments;
-    private RealmList<Deliverable> labs;
-    private RealmList<Deliverable> tests;
+    private RealmList<Deliverable> assignments = new RealmList<>();
+    private RealmList<Deliverable> labs = new RealmList<>();
+    private RealmList<Deliverable> tests = new RealmList<>();
     private double grade;
 
 

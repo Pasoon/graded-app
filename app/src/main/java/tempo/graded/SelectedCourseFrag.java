@@ -12,15 +12,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import io.realm.Realm;
-import io.realm.RealmResults;
-
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import io.realm.RealmChangeListener;
+import io.realm.Realm;
 import io.realm.RealmList;
 
 
@@ -37,19 +34,6 @@ public class SelectedCourseFrag extends Fragment {
     private EditText DeliverableWeight;
     private AlertDialog dialog;
     private Course course;
-    private RealmResults<Deliverable> assignments;
-    private RealmResults<Deliverable> labs;
-    private RealmResults<Deliverable> tests;
-
-
-    public static SelectedCourseFrag newInstance() {
-        SelectedCourseFrag fragment = new SelectedCourseFrag();
-        return fragment;
-    }
-
-    private DeliverableAdapter adapterAssignment;
-    private DeliverableAdapter adapterLabs;
-    private DeliverableAdapter adapterTest;
 
 
     @Override
@@ -57,26 +41,17 @@ public class SelectedCourseFrag extends Fragment {
         super.onCreate(savedInstanceState);
         Realm.init(getActivity());
         realm = Realm.getDefaultInstance();
+        Long id = getArguments().getLong("CourseID");
+        course = realm.where(Course.class).equalTo("id", id).findFirst();
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Long id = getArguments().getLong("CourseID");
         rootView = inflater.inflate(R.layout.selected_course_frag, container, false);
-        setLayout(id);
-        RealmChangeListener changeListener = new RealmChangeListener() {
-            @Override
-            public void onChange(Object element) {
-                adapterAssignment.notifyDataSetChanged();
-                adapterLabs.notifyDataSetChanged();
-                adapterTest.notifyDataSetChanged();
-
-
-            }
-        };
-        course.addChangeListener(changeListener);
+        setLayout();
+        initListViews();
         ImageButton addBtn = (ImageButton) getActivity().findViewById(R.id.addItem);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,8 +87,7 @@ public class SelectedCourseFrag extends Fragment {
         dialog.show();
     }
 
-    private void setLayout(Long id) {
-        course = realm.where(Course.class).equalTo("id", id).findFirst();
+    private void setLayout() {
         String name = course.getName();
         String code = course.getCourseCode();
         TextView courseName = (TextView) rootView.findViewById(R.id.CourseName);
@@ -121,47 +95,58 @@ public class SelectedCourseFrag extends Fragment {
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         TextView titleText = (TextView) toolbar.findViewById(R.id.toolbar_title);
         titleText.setText(code);
-        initListViews(course);
         //getCourseGrade, get CourseCompletion, getCourseAverage should all be called
     }
 
-    private void initListViews(Course course) {
+    private void initListViews() {
         RealmList<Deliverable> assignments = course.getAssignments();
         RealmList<Deliverable> labs = course.getLabs();
         RealmList<Deliverable> tests = course.getTests();
-        adapterAssignment = new DeliverableAdapter(getActivity(), assignments);
-        adapterLabs = new DeliverableAdapter(getActivity(), labs);
-        adapterTest = new DeliverableAdapter(getActivity(), tests);
-        ListView assignmentListView = (ListView) rootView.findViewById(R.id.assignmentsList);
-        ListView labListView = (ListView) rootView.findViewById(R.id.LabsList);
-        ListView testListView = (ListView) rootView.findViewById(R.id.TestsList);
-        assignmentListView.setAdapter(adapterAssignment);
-        labListView.setAdapter(adapterLabs);
-        testListView.setAdapter(adapterTest);
+
+        DeliverableAdapter adapterAssignment = new DeliverableAdapter(getActivity(), assignments);
+        DeliverableAdapter adapterLabs = new DeliverableAdapter(getActivity(), labs);
+        DeliverableAdapter adapterTest = new DeliverableAdapter(getActivity(), tests);
+
+        ListView assignmentsListView = (ListView) rootView.findViewById(R.id.assignmentsList);
+        ListView labsListView = (ListView) rootView.findViewById(R.id.LabsList);
+        ListView testsListView = (ListView) rootView.findViewById(R.id.TestsList);
+
+        assignmentsListView.setAdapter(adapterAssignment);
+        labsListView.setAdapter(adapterLabs);
+        testsListView.setAdapter(adapterTest);
     }
 
     private void createDeliverable(){
+        realm.beginTransaction();
 
         String dN = DeliverableName.getText().toString();
         Double dW = Double.parseDouble(DeliverableWeight.getText().toString());
         String dT = DeliverableType.getSelectedItem().toString();
 
-        Deliverable deliverable = new Deliverable(dN, dW, dT);
+        Number currentIdNum = realm.where(Deliverable.class).max("id");
+        int nextId;
+        if(currentIdNum == null) {
+            nextId = 1;
+        } else {
+            nextId = currentIdNum.intValue() + 1;
+        }
 
-        realm.beginTransaction();
+        Deliverable deliverable = realm.createObject(Deliverable.class, nextId);
+
+        deliverable.setName(dN);
+        deliverable.setType(dT);
+        deliverable.setWeight(dW);
         if(dT.equals("Assignment")){
             course.getAssignments().add(deliverable);
         }
-
-        if(dT.equals("Lab")){
+        else if(dT.equals("Lab")){
             course.getLabs().add(deliverable);
         }
-
-        if(dT.equals("Test")){
+        else if(dT.equals("Test")){
             course.getTests().add(deliverable);
         }
-        realm.commitTransaction();
 
+        realm.commitTransaction();
     }
 
 

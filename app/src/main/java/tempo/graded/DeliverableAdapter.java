@@ -37,7 +37,7 @@ public class DeliverableAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
 

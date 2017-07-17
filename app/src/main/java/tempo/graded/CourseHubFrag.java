@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
-import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 /**
@@ -46,8 +45,8 @@ public class CourseHubFrag extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Realm.init(getActivity());
-        //RealmConfiguration configuration = new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build();
-        //Realm.deleteRealm(configuration); //For flushing Realm DB
+//        RealmConfiguration configuration = new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build();
+//        Realm.deleteRealm(configuration); //For flushing Realm DB
         realm = Realm.getDefaultInstance();
     }
 
@@ -131,7 +130,6 @@ public class CourseHubFrag extends Fragment {
 
     private void addCourseToRealm(){
         realm.beginTransaction();
-
         Number currentIdNum = realm.where(Course.class).max("id");
         int nextId;
         if(currentIdNum == null) {
@@ -139,11 +137,9 @@ public class CourseHubFrag extends Fragment {
         } else {
             nextId = currentIdNum.intValue() + 1;
         }
-
         Course course = realm.createObject(Course.class, nextId);
         course.setName(courseName.getText().toString());
         course.setCourseCode(courseCode.getText().toString());
-
         realm.commitTransaction();
     }
 
