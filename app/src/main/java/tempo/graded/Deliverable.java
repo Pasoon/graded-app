@@ -24,7 +24,6 @@ public class Deliverable extends RealmObject {
     }
 
     public Deliverable(){
-
     }
 
     public long getID() {
