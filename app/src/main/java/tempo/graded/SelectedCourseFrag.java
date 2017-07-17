@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -122,9 +121,12 @@ public class SelectedCourseFrag extends Fragment {
         adapterLabs = new DeliverableAdapter(getActivity(), labs);
         adapterTest = new DeliverableAdapter(getActivity(), tests);
 
-        ListView assignmentsListView = (ListView) rootView.findViewById(R.id.assignmentsList);
-        ListView labsListView = (ListView) rootView.findViewById(R.id.LabsList);
-        ListView testsListView = (ListView) rootView.findViewById(R.id.TestsList);
+        ExpandableHeightListView assignmentsListView = (ExpandableHeightListView) rootView.findViewById(R.id.assignmentsList);
+        assignmentsListView.setExpanded(true);
+        ExpandableHeightListView labsListView = (ExpandableHeightListView) rootView.findViewById(R.id.LabsList);
+        labsListView.setExpanded(true);
+        ExpandableHeightListView testsListView = (ExpandableHeightListView) rootView.findViewById(R.id.TestsList);
+        testsListView.setExpanded(true);
 
         assignmentsListView.setAdapter(adapterAssignment);
         labsListView.setAdapter(adapterLabs);
