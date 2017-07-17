@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,10 +44,6 @@ public class SelectedCourseFrag extends Fragment {
     private ImageButton toggleAssignments;
 
 
-
-
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,15 +69,6 @@ public class SelectedCourseFrag extends Fragment {
             }
         });
 
-//        assignmentsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position,
-//                                    long id) {
-//                //Send the course selected and open the coursePage fragment
-//                Course selectedCourse = courseResults.get(position);
-//                openCoursePage(selectedCourse);
-//            }
-//        });
         return rootView;
     }
 
@@ -179,9 +167,9 @@ public class SelectedCourseFrag extends Fragment {
     }
 
     private void initListViews() {
-        RealmList<Deliverable> assignments = course.getAssignments();
-        RealmList<Deliverable> labs = course.getLabs();
-        RealmList<Deliverable> tests = course.getTests();
+        final RealmList<Deliverable> assignments = course.getAssignments();
+        final RealmList<Deliverable> labs = course.getLabs();
+        final RealmList<Deliverable> tests = course.getTests();
 
         adapterAssignment = new DeliverableAdapter(getActivity(), assignments);
         adapterLabs = new DeliverableAdapter(getActivity(), labs);
@@ -198,6 +186,7 @@ public class SelectedCourseFrag extends Fragment {
         labsListView.setAdapter(adapterLabs);
         testsListView.setAdapter(adapterTest);
 
+
         RealmChangeListener changeListener = new RealmChangeListener() {
             @Override
             public void onChange(Object element) {
@@ -207,6 +196,49 @@ public class SelectedCourseFrag extends Fragment {
             }
         };
         course.addChangeListener(changeListener);
+
+        assignmentsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                //Send the course selected and open the coursePage fragment
+                Deliverable selectedDeliverable = assignments.get(position);
+                openEnterGradePage(selectedDeliverable);
+            }
+        });
+
+        labsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                //Send the course selected and open the coursePage fragment
+                Deliverable selectedDeliverable = labs.get(position);
+                openEnterGradePage(selectedDeliverable);
+            }
+        });
+
+        testsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                //Send the course selected and open the coursePage fragment
+                Deliverable selectedDeliverable = tests.get(position);
+                openEnterGradePage(selectedDeliverable);
+            }
+        });
+    }
+
+    private void openEnterGradePage(Deliverable deliverable){
+        Long id = deliverable.getID();
+        Log.i("SelectedDeliverable ID", ""+id);
+        Bundle args = new Bundle();
+        //Put a list of deliverables
+        args.putLong("DeliverableID", id);
+        EnterGradeFrag frag = new EnterGradeFrag();
+        frag.setArguments(args);
+        android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.content_frame, frag);
+        transaction.commit();
     }
 
     private void createDeliverable(){
