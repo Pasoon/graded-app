@@ -1,6 +1,7 @@
 package tempo.graded;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Pasoon on 2017-07-12.
@@ -8,7 +9,10 @@ import io.realm.RealmObject;
 
 public class Deliverable extends RealmObject {
 
+    @PrimaryKey
+    private long id;
     private String name;
+
     private String type;
     private double weight;
     private double grade;
@@ -22,6 +26,12 @@ public class Deliverable extends RealmObject {
     public Deliverable(){
 
     }
+
+    public long getID() {
+        return id;
+    }
+
+    public void setID(long id){ this.id = id; }
 
     public String getType() {
         return type;

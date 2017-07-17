@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import io.realm.Realm;
+import io.realm.RealmResults;
+
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -33,6 +35,9 @@ public class SelectedCourseFrag extends Fragment {
     private EditText DeliverableWeight;
     private AlertDialog dialog;
     private Course course;
+    private RealmResults<Deliverable> assignments;
+    private RealmResults<Deliverable> labs;
+    private RealmResults<Deliverable> tests;
 
 
     public static SelectedCourseFrag newInstance() {
