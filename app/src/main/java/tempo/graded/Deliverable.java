@@ -21,9 +21,11 @@ public class Deliverable extends RealmObject {
         this.name = name;
         this.weight = weight;
         this.type = type;
+        grade = 0;
     }
 
     public Deliverable(){
+        grade = 0;
     }
 
     public long getID() {

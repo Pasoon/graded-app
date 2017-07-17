@@ -102,7 +102,7 @@
             android:textSize="12sp" />
     </LinearLayout>
 
-    <ScrollView
+    <RelativeLayout
         android:id="@+id/courseContentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -202,6 +202,6 @@
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </RelativeLayout>
 
 </LinearLayout>
