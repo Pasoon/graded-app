@@ -18,6 +18,7 @@ public class Deliverable extends RealmObject {
     private double grade;
 
     public Deliverable(){
+        grade = 0;
     }
 
     public long getID() {

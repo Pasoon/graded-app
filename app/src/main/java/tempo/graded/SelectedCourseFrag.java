@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,6 +59,7 @@ public class SelectedCourseFrag extends Fragment {
         course = realm.where(Course.class).equalTo("id", id).findFirst();
         setLayout();
         initListViews();
+
         RealmChangeListener changeListener = new RealmChangeListener() {
             @Override
             public void onChange(Object element) {
@@ -67,12 +69,23 @@ public class SelectedCourseFrag extends Fragment {
             }
         };
         course.addChangeListener(changeListener);
+
         ImageButton addBtn = (ImageButton) getActivity().findViewById(R.id.addItem);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("Add A Deliverable", "Button Clicked");
                 addDeliverable();
+            }
+        });
+
+        assignmentsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                //Send the course selected and open the coursePage fragment
+                Course selectedCourse = courseResults.get(position);
+                openCoursePage(selectedCourse);
             }
         });
         return rootView;
