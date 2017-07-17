@@ -12,10 +12,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import io.realm.Realm;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmList;
 
 
 /**
@@ -24,22 +28,16 @@ import android.widget.Toast;
 
 public class SelectedCourseFrag extends Fragment {
 
-    private ImageButton addBtn;
     private View rootView;
     private Realm realm;
-    private Button okBtn;
     private Spinner DeliverableType;
     private EditText DeliverableName;
     private EditText DeliverableWeight;
     private AlertDialog dialog;
     private Course course;
-
-
-    public static SelectedCourseFrag newInstance() {
-        SelectedCourseFrag fragment = new SelectedCourseFrag();
-        return fragment;
-    }
-
+    private DeliverableAdapter adapterAssignment;
+    private DeliverableAdapter adapterLabs;
+    private DeliverableAdapter adapterTest;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,39 +53,50 @@ public class SelectedCourseFrag extends Fragment {
         Long id = getArguments().getLong("CourseID");
         rootView = inflater.inflate(R.layout.selected_course_frag, container, false);
         setLayout(id);
-        addBtn = (ImageButton) getActivity().findViewById(R.id.addItem);
+        RealmChangeListener changeListener = new RealmChangeListener() {
+            @Override
+            public void onChange(Object element) {
+                adapterAssignment.notifyDataSetChanged();
+                adapterLabs.notifyDataSetChanged();
+                adapterTest.notifyDataSetChanged();
+
+
+            }
+        };
+        course.addChangeListener(changeListener);
+        ImageButton addBtn = (ImageButton) getActivity().findViewById(R.id.addItem);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("Add A Deliverable", "Button Clicked");
-                Log.i("quickGrade Button", "Button Clicked");
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
-                View view = getActivity().getLayoutInflater().inflate(R.layout.add_deliverable_frag, null);
-
-                DeliverableType = (Spinner) view.findViewById(R.id.DeliverableTypeSpinner);
-                String[] items = new String[]{"Assignment", "Lab", "Test"};
-                ArrayAdapter<String> adapter;
-                adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
-                DeliverableType.setAdapter(adapter);;
-
-                DeliverableName = (EditText) view.findViewById(R.id.DeliverableNameInput);
-                DeliverableWeight = (EditText) view.findViewById(R.id.DeliverableWeightInput);
-                okBtn = (Button) view.findViewById(R.id.Ok);
-
-                okBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        okBtnClicked();
-                    }
-                });
-
-                alertBuilder.setView(view);
-                dialog = alertBuilder.create();
-                dialog.show();
+                addDeliverable();
             }
         });
-
         return rootView;
+    }
+
+    private void addDeliverable(){
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+        View view = getActivity().getLayoutInflater().inflate(R.layout.add_deliverable_frag, null);
+
+        DeliverableType = (Spinner) view.findViewById(R.id.DeliverableTypeSpinner);
+        String[] items = new String[]{"Assignment", "Lab", "Test"};
+        ArrayAdapter<String> adapter;
+        adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
+        DeliverableType.setAdapter(adapter);
+        DeliverableName = (EditText) view.findViewById(R.id.DeliverableNameInput);
+        DeliverableWeight = (EditText) view.findViewById(R.id.DeliverableWeightInput);
+        Button okBtn = (Button) view.findViewById(R.id.Ok);
+
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                okBtnClicked();
+            }
+        });
+        alertBuilder.setView(view);
+        dialog = alertBuilder.create();
+        dialog.show();
     }
 
     private void setLayout(Long id) {
@@ -99,8 +108,24 @@ public class SelectedCourseFrag extends Fragment {
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         TextView titleText = (TextView) toolbar.findViewById(R.id.toolbar_title);
         titleText.setText(code);
+        initListViews(course);
+        //getCourseGrade, get CourseCompletion, getCourseAverage should all be called
     }
 
+    private void initListViews(Course course) {
+        RealmList<Deliverable> assignments = course.getAssignments();
+        RealmList<Deliverable> labs = course.getLabs();
+        RealmList<Deliverable> tests = course.getTests();
+        adapterAssignment = new DeliverableAdapter(getActivity(), assignments);
+        adapterLabs = new DeliverableAdapter(getActivity(), labs);
+        adapterTest = new DeliverableAdapter(getActivity(), tests);
+        ListView assignmentListView = (ListView) rootView.findViewById(R.id.assignmentsList);
+        ListView labListView = (ListView) rootView.findViewById(R.id.LabsList);
+        ListView testListView = (ListView) rootView.findViewById(R.id.TestsList);
+        assignmentListView.setAdapter(adapterAssignment);
+        labListView.setAdapter(adapterLabs);
+        testListView.setAdapter(adapterTest);
+    }
 
     private void createDeliverable(){
 
@@ -124,9 +149,7 @@ public class SelectedCourseFrag extends Fragment {
         }
         realm.commitTransaction();
 
-
     }
-
 
 
     public void okBtnClicked() {
@@ -137,7 +160,7 @@ public class SelectedCourseFrag extends Fragment {
             dialog.dismiss();
 
         } else {
-            Toast.makeText(getActivity(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Please fill in all fields.", Toast.LENGTH_SHORT).show();
         }
     }
 }

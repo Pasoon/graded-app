@@ -20,7 +20,6 @@ public class Deliverable extends RealmObject {
     }
 
     public Deliverable(){
-
     }
 
     public String getType() {

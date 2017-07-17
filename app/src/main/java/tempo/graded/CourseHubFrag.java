@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
-import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 /**
@@ -36,8 +35,6 @@ public class CourseHubFrag extends Fragment {
     CourseAdapter adapter;
     private View rootView;
     private AlertDialog dialog;
-    private ListView courseList;
-
 
     public static CourseHubFrag newInstance() {
         CourseHubFrag fragment = new CourseHubFrag();
@@ -48,8 +45,8 @@ public class CourseHubFrag extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Realm.init(getActivity());
-        //RealmConfiguration configuration = new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build();
-        //Realm.deleteRealm(configuration); //For flushing Realm DB
+//        RealmConfiguration configuration = new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build();
+//        Realm.deleteRealm(configuration); //For flushing Realm DB
         realm = Realm.getDefaultInstance();
     }
 
@@ -95,10 +92,7 @@ public class CourseHubFrag extends Fragment {
             }
         });
 
-
-        courseList = (ListView) rootView.findViewById(R.id.courseList);
-
-        courseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
