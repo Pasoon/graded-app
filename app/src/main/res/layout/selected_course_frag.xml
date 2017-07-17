@@ -122,6 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="ASSIGNMENTS"
+                    android:textAllCaps="true"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
 
@@ -151,6 +152,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="LABS"
+                    android:textAllCaps="true"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
             </LinearLayout>
