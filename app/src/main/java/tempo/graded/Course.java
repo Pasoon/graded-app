@@ -1,7 +1,5 @@
 package tempo.graded;
 
-import java.util.List;
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -15,13 +13,12 @@ public class Course extends RealmObject {
     @PrimaryKey
     private long id;
     private String name;
-
     private String courseCode;
     private RealmList<Deliverable> assignments;
     private RealmList<Deliverable> labs;
     private RealmList<Deliverable> tests;
-    private Deliverable finalExam;
     private double grade;
+
 
     public double getGrade() { return grade; }
 
@@ -43,27 +40,18 @@ public class Course extends RealmObject {
         return courseCode;
     }
 
-    public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
-    }
+    public void setCourseCode(String courseCode){ this.courseCode = courseCode; }
 
-    public List getAssignments() {
+    public RealmList<Deliverable> getAssignments(){
         return assignments;
     }
 
-    public List getLabs() {
+    public RealmList<Deliverable> getLabs(){
         return labs;
     }
 
-    public List getTests() {
+    public RealmList<Deliverable> getTests(){
         return tests;
     }
 
-    public Deliverable getFinalExam() {
-        return finalExam;
-    }
-
-    public void setFinalExam(Deliverable finalExam) {
-        this.finalExam = finalExam;
-    }
 }
