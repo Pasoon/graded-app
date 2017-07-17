@@ -118,24 +118,35 @@
                 android:background="@drawable/courselistgradient"
                 android:elevation="5dp"
                 android:orientation="horizontal"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:weightSum="2">
 
                 <TextView
-                    android:id="@+id/textView15"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/assignmentHeader"
+                    android:layout_width="1dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="1.7"
                     android:text="ASSIGNMENTS"
                     android:textAllCaps="true"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
 
+                <ImageButton
+                    android:id="@+id/toggleAssignment"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:background="@android:color/transparent"
+                    app:srcCompat="@drawable/expand_down" />
+
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/assignments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <tempo.graded.ExpandableHeightListView
                     android:id="@+id/assignmentsList"
@@ -153,22 +164,34 @@
                 android:background="@drawable/courselistgradient"
                 android:elevation="5dp"
                 android:orientation="horizontal"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:weightSum="2">
 
                 <TextView
                     android:id="@+id/textView16"
-                    android:layout_width="wrap_content"
+                    android:layout_width="1dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1.7"
                     android:text="LABS"
                     android:textAllCaps="true"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
+
+                <ImageButton
+                    android:id="@+id/toggleLabs"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:background="@android:color/transparent"
+                    app:srcCompat="@drawable/expand_down" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/labs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <tempo.graded.ExpandableHeightListView
                     android:id="@+id/LabsList"
@@ -186,21 +209,33 @@
                 android:background="@drawable/courselistgradient"
                 android:elevation="5dp"
                 android:orientation="horizontal"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:weightSum="2">
 
                 <TextView
                     android:id="@+id/textView17"
-                    android:layout_width="wrap_content"
+                    android:layout_width="1dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1.7"
                     android:text="TESTS/FINALS"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
+
+                <ImageButton
+                    android:id="@+id/toggleTests"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:background="@android:color/transparent"
+                    app:srcCompat="@drawable/expand_down" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/tests"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <tempo.graded.ExpandableHeightListView
                     android:id="@+id/TestsList"
