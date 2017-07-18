@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         mstb:mstbPrimaryColor="@color/colorPrimary"
-        mstb:mstbSecondaryColor="@android:color/background_light"
+        mstb:mstbSecondaryColor="@color/smokeWhite"
         mstb:values="@array/deliverableTypes" />
 
     <LinearLayout
