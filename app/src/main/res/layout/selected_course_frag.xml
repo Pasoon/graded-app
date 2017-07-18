@@ -68,6 +68,7 @@
         android:id="@+id/courseInfoDescriptionLayout"
         android:layout_width="match_parent"
         android:layout_height="24dp"
+        android:elevation="2dp"
         android:orientation="horizontal"
         android:weightSum="3">
 
@@ -102,7 +103,7 @@
             android:textSize="12sp" />
     </LinearLayout>
 
-    <RelativeLayout
+    <ScrollView
         android:id="@+id/courseContentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -248,6 +249,6 @@
             </LinearLayout>
 
         </LinearLayout>
-    </RelativeLayout>
+    </ScrollView>
 
 </LinearLayout>
