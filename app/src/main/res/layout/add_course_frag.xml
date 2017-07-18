@@ -5,73 +5,87 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_gravity="center"
-        android:text="Course Information"
+        android:background="@drawable/courselistgradient"
+        android:padding="5dp"
+        android:text="new course"
         android:textAlignment="center"
+        android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textColor="@android:color/background_light"
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="2">
 
         <TextView
             android:id="@+id/textView4"
-            android:layout_width="wrap_content"
+            android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Course Name:"
-            android:textColor="@color/colorAccent"
+            android:layout_weight=".75"
             android:ems="7"
-            android:textSize="17sp"
-            android:textAlignment="center"/>
+            android:text="Course Name:"
+            android:textAlignment="viewStart"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/CourseNameInput"
-            android:layout_width="wrap_content"
+            android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.25"
             android:ems="10"
             android:hint="Calculus 1"
             android:inputType="textPersonName"
             android:textAlignment="center"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="2">
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
+            android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Course Code:"
-            android:textColor="@color/colorAccent"
-            android:textSize="17sp"
+            android:layout_weight=".75"
             android:ems="7"
-            android:textAlignment="center"/>
+            android:text="Course Code:"
+            android:textAlignment="viewStart"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/CourseCodeInput"
-            android:layout_width="wrap_content"
+            android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.25"
             android:ems="10"
             android:hint="MAT1337"
             android:inputType="textPersonName"
             android:textAlignment="center"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary" />
     </LinearLayout>
 
     <Button
@@ -79,7 +93,10 @@
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/courselistgradient"
         android:elevation="24dp"
-        android:text="Add" />
+        android:text="Add"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp" />
 
 </LinearLayout>
