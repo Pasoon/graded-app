@@ -20,6 +20,6 @@
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="18sp" />
+        android:textSize="24sp" />
 
 </LinearLayout>

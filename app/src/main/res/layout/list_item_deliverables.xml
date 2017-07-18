@@ -10,7 +10,10 @@
         android:layout_centerVertical="true"
         android:background="@drawable/deliverablelistgradient"
         android:orientation="horizontal"
-        android:padding="5dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="8dp"
         android:weightSum="3">
 
         <TextView
