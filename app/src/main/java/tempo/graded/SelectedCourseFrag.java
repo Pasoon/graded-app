@@ -9,18 +9,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.w3c.dom.Text;
-
 import java.text.DecimalFormat;
+import org.honorato.multistatetogglebutton.MultiStateToggleButton;
+
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -35,7 +34,6 @@ public class SelectedCourseFrag extends Fragment {
 
     private View rootView;
     private Realm realm;
-    private Spinner DeliverableType;
     private EditText DeliverableName;
     private EditText DeliverableWeight;
     private AlertDialog dialog;
@@ -46,6 +44,7 @@ public class SelectedCourseFrag extends Fragment {
     private ImageButton toggleTests;
     private ImageButton toggleLabs;
     private ImageButton toggleAssignments;
+    private MultiStateToggleButton dType;
 
 
     @Override
@@ -79,11 +78,8 @@ public class SelectedCourseFrag extends Fragment {
     private void addDeliverable(){
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.add_deliverable_frag, null);
-
-        DeliverableType = (Spinner) view.findViewById(R.id.DeliverableTypeSpinner);
-        String[] items = new String[]{"Assignment", "Lab", "Test"};
-        ArrayAdapter<String> adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
-        DeliverableType.setAdapter(adapter);
+        dType = (MultiStateToggleButton) view.findViewById(R.id.mstb_multi_id);
+        dType.setValue(0); //Set default button to assignment.
         DeliverableName = (EditText) view.findViewById(R.id.DeliverableNameInput);
         DeliverableWeight = (EditText) view.findViewById(R.id.DeliverableWeightInput);
         Button okBtn = (Button) view.findViewById(R.id.Ok);
@@ -323,9 +319,9 @@ public class SelectedCourseFrag extends Fragment {
     private void createDeliverable(){
         realm.beginTransaction();
 
+        int i = dType.getValue();
         String dN = DeliverableName.getText().toString();
         Double dW = Double.parseDouble(DeliverableWeight.getText().toString());
-        String dT = DeliverableType.getSelectedItem().toString();
 
         Number currentIdNum = realm.where(Deliverable.class).max("id");
         int nextId;
@@ -334,20 +330,21 @@ public class SelectedCourseFrag extends Fragment {
         } else {
             nextId = currentIdNum.intValue() + 1;
         }
-
         Deliverable deliverable = realm.createObject(Deliverable.class, nextId);
-
         deliverable.setName(dN);
-        deliverable.setType(dT);
         deliverable.setWeight(dW);
-        switch (dT) {
-            case "Assignment":
+
+        switch (i) {
+            case 0:
+                deliverable.setType("Assignment");
                 course.getAssignments().add(deliverable);
                 break;
-            case "Lab":
+            case 1:
+                deliverable.setType("Lab");
                 course.getLabs().add(deliverable);
                 break;
-            case "Test":
+            case 2:
+                deliverable.setType("Test");
                 course.getTests().add(deliverable);
                 break;
         }
@@ -357,7 +354,7 @@ public class SelectedCourseFrag extends Fragment {
 
     public void okBtnClicked() {
 
-        if (!DeliverableWeight.getText().toString().isEmpty() && !DeliverableName.getText().toString().isEmpty() && !DeliverableType.getSelectedItem().toString().isEmpty()) {
+        if (!DeliverableWeight.getText().toString().isEmpty() && !DeliverableName.getText().toString().isEmpty()) {
             createDeliverable();
             Toast.makeText(getActivity(), "Deliverable Added!", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
