@@ -6,4 +6,10 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <string-array name="deliverableTypes">
+        <item>Assignment</item>
+        <item>Lab</item>
+        <item>Test</item>
+    </string-array>
 </resources>
