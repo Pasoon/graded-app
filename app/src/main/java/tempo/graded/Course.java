@@ -106,6 +106,7 @@ public class Course extends RealmObject {
                 letterGrade = "A+";
             }
         }
+
     }
 
     public String getLetterGrade(){

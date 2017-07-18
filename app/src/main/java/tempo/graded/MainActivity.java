@@ -77,11 +77,6 @@ public class MainActivity extends AppCompatActivity
                 add.setVisibility(View.GONE);
                 selectedFragment = QuickGradeFrag.newInstance();
                 break;
-            case R.id.add_course_layout:
-                titleText.setText("add course");
-                add.setVisibility(View.GONE);
-                selectedFragment= AddCourseFrag.newInstance();
-                break;
         }
         android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.content_frame, selectedFragment);

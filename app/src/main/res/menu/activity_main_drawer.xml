@@ -4,22 +4,18 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/course_hub_layout"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_library_books_white_24dp"
             android:title="Course Hub" />
         <item
             android:id="@+id/quick_grade_layout"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_assessment_white_24dp"
             android:title="Quick Grade" />
-        <item
-            android:id="@+id/add_course_layout"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Add a Course" />
 
         <item
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_help_white_24dp"
             android:title="Help" />
         <item
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_info_white_24dp"
             android:title="About" />
 
 
