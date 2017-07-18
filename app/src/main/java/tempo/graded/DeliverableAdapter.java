@@ -56,6 +56,7 @@ public class DeliverableAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.deliverableName= (TextView) convertView.findViewById(R.id.itemName);
             holder.deliverableWeight = (TextView) convertView.findViewById(R.id.itemWeight);
+            holder.deliverableGrade = (TextView) convertView.findViewById(R.id.itemGrade);
             // hang onto this holder for future recyclage
             convertView.setTag(holder);
         }
@@ -67,20 +68,24 @@ public class DeliverableAdapter extends BaseAdapter {
         // Get relevant subviews of row view
         TextView dName = holder.deliverableName;
         TextView dWeight = holder.deliverableWeight;
+        TextView dGrade = holder.deliverableGrade;
 
 
         //Get corresponding deliverable for row
         Deliverable deliverable = getItem(position);
         String name = deliverable.getName();
         String weight = Double.toString(deliverable.getWeight());
+        String grade = Double.toString(deliverable.getGrade());
         dName.setText(name);
-        dWeight.setText(weight);
+        dWeight.setText(weight+"%");
+        dGrade.setText(grade+"%");
         return convertView;
     }
 
     private static class ViewHolder {
         public TextView deliverableName;
         public TextView deliverableWeight;
+        public TextView deliverableGrade;
     }
 
 }

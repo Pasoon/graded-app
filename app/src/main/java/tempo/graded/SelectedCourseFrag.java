@@ -172,11 +172,11 @@ public class SelectedCourseFrag extends Fragment {
         adapterLabs = new DeliverableAdapter(getActivity(), labs);
         adapterTest = new DeliverableAdapter(getActivity(), tests);
 
-        ExpandableHeightListView assignmentsListView = (ExpandableHeightListView) rootView.findViewById(R.id.assignmentsList);
+        final ExpandableHeightListView assignmentsListView = (ExpandableHeightListView) rootView.findViewById(R.id.assignmentsList);
         assignmentsListView.setExpanded(true);
-        ExpandableHeightListView labsListView = (ExpandableHeightListView) rootView.findViewById(R.id.LabsList);
+        final ExpandableHeightListView labsListView = (ExpandableHeightListView) rootView.findViewById(R.id.LabsList);
         labsListView.setExpanded(true);
-        ExpandableHeightListView testsListView = (ExpandableHeightListView) rootView.findViewById(R.id.TestsList);
+        final ExpandableHeightListView testsListView = (ExpandableHeightListView) rootView.findViewById(R.id.TestsList);
         testsListView.setExpanded(true);
 
         assignmentsListView.setAdapter(adapterAssignment);
@@ -196,46 +196,108 @@ public class SelectedCourseFrag extends Fragment {
 
         assignmentsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
+            public void onItemClick(AdapterView<?> parent, View view, final int position,
                                     long id) {
                 //Send the course selected and open the coursePage fragment
-                Deliverable selectedDeliverable = assignments.get(position);
-                openEnterGradePage(selectedDeliverable);
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+                view = getActivity().getLayoutInflater().inflate(R.layout.enter_grade_frag,null);
+                final EditText deliverableGrade = (EditText) view.findViewById(R.id.DeliverableGradeInput);
+                Button enterBtn = (Button) view.findViewById(R.id.Enter);
+
+                enterBtn.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view){
+                        realm.beginTransaction();
+                        if(!deliverableGrade.getText().toString().isEmpty()){
+                            Deliverable selectedDeliverable = assignments.get(position);
+                            selectedDeliverable.setGrade(Double.parseDouble(deliverableGrade.getText().toString()));
+                            Toast.makeText(getActivity(), "Grade Added!", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            assignmentsListView.setAdapter(adapterAssignment);
+                        }
+
+                        else{
+                            Toast.makeText(getActivity(), "Please fill in all fields.", Toast.LENGTH_SHORT).show();
+                        }
+                        realm.commitTransaction();
+                    }
+                });
+
+                alertBuilder.setView(view);
+                dialog = alertBuilder.create();
+                dialog.show();
+
             }
         });
 
         labsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
+            public void onItemClick(AdapterView<?> parent, View view, final int position,
                                     long id) {
-                //Send the course selected and open the coursePage fragment
-                Deliverable selectedDeliverable = labs.get(position);
-                openEnterGradePage(selectedDeliverable);
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+                view = getActivity().getLayoutInflater().inflate(R.layout.enter_grade_frag,null);
+                final EditText deliverableGrade = (EditText) view.findViewById(R.id.DeliverableGradeInput);
+                Button enterBtn = (Button) view.findViewById(R.id.Enter);
+
+                enterBtn.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view){
+                        realm.beginTransaction();
+                        if(!deliverableGrade.getText().toString().isEmpty()){
+                            Deliverable selectedDeliverable = labs.get(position);
+                            selectedDeliverable.setGrade(Double.parseDouble(deliverableGrade.getText().toString()));
+                            Toast.makeText(getActivity(), "Grade Added!", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            labsListView.setAdapter(adapterLabs);
+                        }
+
+                        else{
+                            Toast.makeText(getActivity(), "Please fill in all fields.", Toast.LENGTH_SHORT).show();
+                        }
+                        realm.commitTransaction();
+                    }
+                });
+
+                alertBuilder.setView(view);
+                dialog = alertBuilder.create();
+                dialog.show();
+
             }
         });
 
         testsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
+            public void onItemClick(AdapterView<?> parent, View view, final int position,
                                     long id) {
-                //Send the course selected and open the coursePage fragment
-                Deliverable selectedDeliverable = tests.get(position);
-                openEnterGradePage(selectedDeliverable);
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+                view = getActivity().getLayoutInflater().inflate(R.layout.enter_grade_frag,null);
+                final EditText deliverableGrade = (EditText) view.findViewById(R.id.DeliverableGradeInput);
+                Button enterBtn = (Button) view.findViewById(R.id.Enter);
+
+                enterBtn.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view){
+                        realm.beginTransaction();
+                        if(!deliverableGrade.getText().toString().isEmpty()){
+                            Deliverable selectedDeliverable = tests.get(position);
+                            selectedDeliverable.setGrade(Double.parseDouble(deliverableGrade.getText().toString()));
+                            Toast.makeText(getActivity(), "Grade Added!", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            testsListView.setAdapter(adapterTest);
+                        }
+
+                        else{
+                            Toast.makeText(getActivity(), "Please fill in all fields.", Toast.LENGTH_SHORT).show();
+                        }
+                        realm.commitTransaction();
+                    }
+                });
+
+                alertBuilder.setView(view);
+                dialog = alertBuilder.create();
+                dialog.show();
             }
         });
-    }
-
-    private void openEnterGradePage(Deliverable deliverable){
-        Long id = deliverable.getID();
-        Log.i("SelectedDeliverable ID", ""+id);
-        Bundle args = new Bundle();
-        //Put a list of deliverables
-        args.putLong("DeliverableID", id);
-        EnterGradeFrag frag = new EnterGradeFrag();
-        frag.setArguments(args);
-        android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_frame, frag);
-        transaction.commit();
     }
 
     private void createDeliverable(){
