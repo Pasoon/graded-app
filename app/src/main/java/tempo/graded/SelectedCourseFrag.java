@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
 import java.text.DecimalFormat;
 import org.honorato.multistatetogglebutton.MultiStateToggleButton;
 
@@ -45,6 +44,7 @@ public class SelectedCourseFrag extends Fragment {
     private ImageButton toggleLabs;
     private ImageButton toggleAssignments;
     private MultiStateToggleButton dType;
+    private Toolbar toolbar;
 
 
     @Override
@@ -63,6 +63,7 @@ public class SelectedCourseFrag extends Fragment {
         Long id = getArguments().getLong("CourseID");
         course = realm.where(Course.class).equalTo("id", id).findFirst();
         setLayout();
+        updatePage();
         ImageButton addBtn = (ImageButton) getActivity().findViewById(R.id.addItem);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,23 +99,15 @@ public class SelectedCourseFrag extends Fragment {
 
     private void setLayout() {
         //Setup action bar information
-        String name = course.getName();
         String code = course.getCourseCode();
-        Double grade = course.getGrade();
-        TextView courseName = (TextView) rootView.findViewById(R.id.CourseName);
-        TextView courseGrade = (TextView) rootView.findViewById(R.id.Grade);
-        TextView courseLetterGrade = (TextView) rootView.findViewById(R.id.GradeLetter);
-        TextView courseCompletion = (TextView) rootView.findViewById(R.id.CourseCompletion);
 
-        courseName.setText(name);
-        courseGrade.setText(new DecimalFormat("##.##").format(grade)+"%");
-
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        System.out.println(toolbar);
         TextView titleText = (TextView) toolbar.findViewById(R.id.toolbar_title);
         titleText.setText(code);
 
-        //getCourseGrade, get CourseCompletion, getCourseAverage should all be called
 
+        //getCourseGrade, get CourseCompletion, getCourseAverage should all be called;
 
         //setup list views
         initListViews();
@@ -125,6 +118,24 @@ public class SelectedCourseFrag extends Fragment {
         setUpTestsExpandableLists();
 
     }
+
+    private void updatePage(){
+        String name = course.getName();
+        String letterGrade = course.getLetterGrade();
+        Double grade = course.getGrade();
+        Double totalWeight = course.getTotalWeight();
+
+        TextView courseName = (TextView) rootView.findViewById(R.id.CourseName);
+        TextView courseGrade = (TextView) rootView.findViewById(R.id.Grade);
+        TextView courseLetterGrade = (TextView) rootView.findViewById(R.id.GradeLetter);
+        TextView courseCompletion = (TextView) rootView.findViewById(R.id.CourseCompletion);
+
+        courseName.setText(name);
+        courseGrade.setText(new DecimalFormat("##.##").format(grade)+"%");
+        courseLetterGrade.setText(letterGrade);
+        courseCompletion.setText(new DecimalFormat("##.##").format(totalWeight)+"%");
+    }
+
 
     private void toggleVisibilityAndSetCaret(LinearLayout layout, ImageButton toggle){
         if(layout.getVisibility() == View.GONE) {
@@ -200,7 +211,7 @@ public class SelectedCourseFrag extends Fragment {
                 adapterAssignment.notifyDataSetChanged();
                 adapterLabs.notifyDataSetChanged();
                 adapterTest.notifyDataSetChanged();
-                setLayout();
+                updatePage();
 
             }
         };
@@ -224,8 +235,8 @@ public class SelectedCourseFrag extends Fragment {
                             Deliverable selectedDeliverable = assignments.get(position);
                             selectedDeliverable.setGrade(Double.parseDouble(deliverableGrade.getText().toString()));
                             Toast.makeText(getActivity(), "Grade Added!", Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
                             assignmentsListView.setAdapter(adapterAssignment);
+                            dialog.dismiss();
                         }
 
                         else{
@@ -261,8 +272,8 @@ public class SelectedCourseFrag extends Fragment {
                             Deliverable selectedDeliverable = labs.get(position);
                             selectedDeliverable.setGrade(Double.parseDouble(deliverableGrade.getText().toString()));
                             Toast.makeText(getActivity(), "Grade Added!", Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
                             labsListView.setAdapter(adapterLabs);
+                            dialog.dismiss();
                         }
 
                         else{
@@ -297,8 +308,8 @@ public class SelectedCourseFrag extends Fragment {
                             Deliverable selectedDeliverable = tests.get(position);
                             selectedDeliverable.setGrade(Double.parseDouble(deliverableGrade.getText().toString()));
                             Toast.makeText(getActivity(), "Grade Added!", Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
                             testsListView.setAdapter(adapterTest);
+                            dialog.dismiss();
                         }
 
                         else{
@@ -334,6 +345,7 @@ public class SelectedCourseFrag extends Fragment {
         deliverable.setName(dN);
         deliverable.setWeight(dW);
 
+        System.out.println("INSIDE CREATE");
         switch (i) {
             case 0:
                 deliverable.setType("Assignment");
@@ -355,7 +367,9 @@ public class SelectedCourseFrag extends Fragment {
     public void okBtnClicked() {
 
         if (!DeliverableWeight.getText().toString().isEmpty() && !DeliverableName.getText().toString().isEmpty()) {
+            System.out.println("Check1");
             createDeliverable();
+            System.out.println("Check2");
             Toast.makeText(getActivity(), "Deliverable Added!", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
 

@@ -87,7 +87,7 @@
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Grade (%)"
+            android:text="Grade"
             android:textAlignment="center"
             android:textColor="@color/colorAccent"
             android:textSize="12sp" />
@@ -97,7 +97,7 @@
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Completion (%)"
+            android:text="Course Completion"
             android:textAlignment="center"
             android:textColor="@color/colorAccent"
             android:textSize="12sp" />

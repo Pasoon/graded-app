@@ -77,9 +77,27 @@ public class CourseAdapter extends BaseAdapter {
         //Get corresponding habit for row
         Course course = getItem(position);
         courseName.setText(course.getCourseCode());
-        courseGrade.setText("A+"); //Need to implement course.getGrade() and course.getColor().
+
+        courseGrade.setText(course.getLetterGrade()); //Need to implement course.getGrade() and course.getColor().
         //Based on grade, we would set the color.
-        gradeColor.setBackgroundResource(R.color.grade_a);
+        if(course.getGradeColor().equals("grade_a")){
+            gradeColor.setBackgroundResource(R.color.grade_a);
+        }
+        else if(course.getGradeColor().equals("grade_b")){
+            gradeColor.setBackgroundResource(R.color.grade_b);
+        }
+        else if(course.getGradeColor().equals("grade_c")){
+            gradeColor.setBackgroundResource(R.color.grade_c);
+        }
+        else if(course.getGradeColor().equals("grade_d")){
+            gradeColor.setBackgroundResource(R.color.grade_d);
+        }
+        else if(course.getGradeColor().equals("grade_f")){
+            gradeColor.setBackgroundResource(R.color.grade_f);
+        }
+        else{
+            gradeColor.setBackgroundResource(R.color.colorAccent);
+        }
 
         return convertView;
     }
