@@ -17,15 +17,21 @@ public class Course extends RealmObject {
     private RealmList<Deliverable> assignments = new RealmList<>();
     private RealmList<Deliverable> labs = new RealmList<>();
     private RealmList<Deliverable> tests = new RealmList<>();
-    private double grade;
     private double assignmentsgrade;
     private double labsgrade;
     private double testsgrade;
     private double totalweight;
+    private double grade;
 
 
 
-    private void calculateGrade(){
+    public void calculateGrade(){
+
+        assignmentsgrade = 0;
+        labsgrade = 0;
+        testsgrade = 0;
+        totalweight = 0;
+        grade = 0;
         for (Deliverable deliverable : assignments) {
             if(deliverable.getGrade() != 0){
                 assignmentsgrade = assignmentsgrade + (deliverable.getGrade()/100 * deliverable.getWeight()/100);
@@ -49,8 +55,7 @@ public class Course extends RealmObject {
 
         grade = (assignmentsgrade + labsgrade + testsgrade)/totalweight;
         grade = grade * 100;
-
-        System.out.println(grade);
+        this.setGrade(grade);
     }
 
     public double getGrade() { return grade; }

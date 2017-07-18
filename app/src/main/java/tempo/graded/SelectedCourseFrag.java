@@ -18,6 +18,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
+import java.text.DecimalFormat;
+
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmList;
@@ -90,6 +94,7 @@ public class SelectedCourseFrag extends Fragment {
                 okBtnClicked();
             }
         });
+
         alertBuilder.setView(view);
         dialog = alertBuilder.create();
         dialog.show();
@@ -99,8 +104,14 @@ public class SelectedCourseFrag extends Fragment {
         //Setup action bar information
         String name = course.getName();
         String code = course.getCourseCode();
+        Double grade = course.getGrade();
         TextView courseName = (TextView) rootView.findViewById(R.id.CourseName);
+        TextView courseGrade = (TextView) rootView.findViewById(R.id.Grade);
+        TextView courseLetterGrade = (TextView) rootView.findViewById(R.id.GradeLetter);
+        TextView courseCompletion = (TextView) rootView.findViewById(R.id.CourseCompletion);
+
         courseName.setText(name);
+        courseGrade.setText(new DecimalFormat("##.##").format(grade)+"%");
 
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         TextView titleText = (TextView) toolbar.findViewById(R.id.toolbar_title);
@@ -193,6 +204,8 @@ public class SelectedCourseFrag extends Fragment {
                 adapterAssignment.notifyDataSetChanged();
                 adapterLabs.notifyDataSetChanged();
                 adapterTest.notifyDataSetChanged();
+                setLayout();
+
             }
         };
         course.addChangeListener(changeListener);
@@ -222,7 +235,9 @@ public class SelectedCourseFrag extends Fragment {
                         else{
                             Toast.makeText(getActivity(), "Please fill in all fields.", Toast.LENGTH_SHORT).show();
                         }
+                        course.calculateGrade();
                         realm.commitTransaction();
+
                     }
                 });
 
@@ -257,6 +272,7 @@ public class SelectedCourseFrag extends Fragment {
                         else{
                             Toast.makeText(getActivity(), "Please fill in all fields.", Toast.LENGTH_SHORT).show();
                         }
+                        course.calculateGrade();
                         realm.commitTransaction();
                     }
                 });
@@ -292,6 +308,7 @@ public class SelectedCourseFrag extends Fragment {
                         else{
                             Toast.makeText(getActivity(), "Please fill in all fields.", Toast.LENGTH_SHORT).show();
                         }
+                        course.calculateGrade();
                         realm.commitTransaction();
                     }
                 });
