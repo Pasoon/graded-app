@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
 import java.text.DecimalFormat;
 import org.honorato.multistatetogglebutton.MultiStateToggleButton;
 
@@ -100,13 +99,18 @@ public class SelectedCourseFrag extends Fragment {
         //Setup action bar information
         String name = course.getName();
         String code = course.getCourseCode();
+        String letterGrade = course.getLetterGrade();
         Double grade = course.getGrade();
+        Double totalWeight = course.getTotalWeight();
+
         TextView courseName = (TextView) rootView.findViewById(R.id.CourseName);
         TextView courseGrade = (TextView) rootView.findViewById(R.id.Grade);
         TextView courseLetterGrade = (TextView) rootView.findViewById(R.id.GradeLetter);
         TextView courseCompletion = (TextView) rootView.findViewById(R.id.CourseCompletion);
 
         courseName.setText(name);
+        courseLetterGrade.setText(letterGrade);
+        courseCompletion.setText(new DecimalFormat("##.##").format(totalWeight)+"%");
         courseGrade.setText(new DecimalFormat("##.##").format(grade)+"%");
 
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);

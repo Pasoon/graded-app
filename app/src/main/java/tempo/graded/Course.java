@@ -14,6 +14,7 @@ public class Course extends RealmObject {
     private long id;
     private String name;
     private String courseCode;
+    private String letterGrade;
     private RealmList<Deliverable> assignments = new RealmList<>();
     private RealmList<Deliverable> labs = new RealmList<>();
     private RealmList<Deliverable> tests = new RealmList<>();
@@ -25,6 +26,9 @@ public class Course extends RealmObject {
 
 
 
+    public double getTotalWeight(){
+        return totalweight*100;
+    }
     public void calculateGrade(){
 
         assignmentsgrade = 0;
@@ -56,7 +60,82 @@ public class Course extends RealmObject {
         grade = (assignmentsgrade + labsgrade + testsgrade)/totalweight;
         grade = grade * 100;
         this.setGrade(grade);
+        this.setLetterGrade();
     }
+
+    public void setLetterGrade(){
+        if(grade > 0 && grade < 50){
+            letterGrade = "F";
+        }
+
+        else if(grade >= 50 && grade < 60){
+            if(grade >= 50 && grade <= 54){
+                letterGrade = "D";
+            }
+            else{
+                letterGrade = "D+";
+            }
+        }
+
+        else if(grade >= 60 && grade < 70){
+            if(grade >= 60 && grade <= 64){
+                letterGrade = "C";
+            }
+            else{
+                letterGrade = "C+";
+            }
+        }
+
+        else if(grade >= 70 && grade < 80){
+            if(grade >= 70 && grade <= 74){
+                letterGrade = "B";
+            }
+            else{
+                letterGrade = "B+";
+            }
+        }
+
+        else if(grade >= 80 && grade <=100){
+            if(grade >= 80 && grade <= 84){
+                letterGrade = "A-";
+            }
+            else if(grade >= 85 && grade <= 89){
+                letterGrade = "A";
+            }
+            else{
+                letterGrade = "A+";
+            }
+        }
+    }
+
+    public String getLetterGrade(){
+        return letterGrade;
+    }
+
+    public String getGradeColor(){
+        if(grade > 0 && grade < 50){
+            return "grade_f";
+        }
+
+        else if(grade >= 50 && grade < 60){
+            return "grade_d";
+        }
+
+        else if(grade >= 60 && grade < 70){
+            return "grade_c";
+        }
+
+        else if(grade >= 70 && grade < 80){
+            return "grade_b";
+        }
+
+        else if(grade >= 80 && grade <=100){
+            return "grade_a";
+            }
+
+        return "";
+    }
+
 
     public double getGrade() { return grade; }
 
