@@ -89,13 +89,13 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/Edit"
+        android:id="@+id/done"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/courselistgradient"
         android:elevation="24dp"
-        android:text="Edit"
+        android:text="Done"
         android:textColor="@android:color/background_light"
         android:textSize="18sp" />
 
