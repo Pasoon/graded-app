@@ -274,6 +274,16 @@ public class SelectedCourseFrag extends Fragment {
             }
         });
 
+        assignmentsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+                view = getActivity().getLayoutInflater().inflate(R.layout.editordelete_deliverable_frag,null);
+                Toast.makeText(getActivity(), "YOOOOOOO", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
         labsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position,
@@ -344,6 +354,10 @@ public class SelectedCourseFrag extends Fragment {
                 dialog.show();
             }
         });
+    }
+
+    private void assignmentsListViewListener(){
+
     }
 
     private void createDeliverable(){

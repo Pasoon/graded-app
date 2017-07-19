@@ -64,6 +64,12 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
 
+//        if (getFragmentManager().getBackStackEntryCount() > 0) {
+//            getFragmentManager().popBackStack();
+//        } else {
+//            super.onBackPressed();
+//        }
+
     }
 
     //Minimizes keyboard when touch on screen
