@@ -31,7 +31,6 @@ public class CourseAdapter extends BaseSwipeAdapter {
     private RealmResults<Course> mDataSource;
     private Realm realm;
     private AlertDialog dialog;
-    private Course course;
 
     public CourseAdapter(Context context, RealmResults<Course> items) {
         mContext = context;
@@ -62,7 +61,6 @@ public class CourseAdapter extends BaseSwipeAdapter {
 
     @Override
     public View generateView(final int position, final ViewGroup parent) {
-        course = getItem(position);
         View v = LayoutInflater.from(mContext).inflate(R.layout.list_item_courses, null);
         SwipeLayout swipeLayout = (SwipeLayout)v.findViewById(getSwipeLayoutResourceId(position));
         swipeLayout.addSwipeListener(new SimpleSwipeListener() {
@@ -74,30 +72,31 @@ public class CourseAdapter extends BaseSwipeAdapter {
         v.findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callConfirmationDialog();
+                callConfirmationDialog(position);
             }
         });
         v.findViewById(R.id.edit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callEditDialog();
+                callEditDialog(position);
             }
         });
         return v;
     }
 
-    private void callEditDialog() {
+    private void callEditDialog(final int position) {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(mContext);
         View view = LayoutInflater.from(mContext).inflate(R.layout.edit_course_frag, null);
         final EditText name = (EditText) view.findViewById(R.id.CourseNameInput);
         final EditText code = (EditText) view.findViewById(R.id.CourseCodeInput);
+        Course course = mDataSource.get(position);
         name.setText(course.getName());
         code.setText(course.getCourseCode());
         Button okBtn = (Button) view.findViewById(R.id.done);
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editCourse(name.getText().toString(), code.getText().toString());
+                editCourse(position, name.getText().toString(), code.getText().toString());
             }
         });
         alertBuilder.setView(view);
@@ -105,12 +104,13 @@ public class CourseAdapter extends BaseSwipeAdapter {
         dialog.show();
     }
 
-    private void editCourse(String name, String code) {
+    private void editCourse(int position, String name, String code) {
         if(name.isEmpty() || code.isEmpty()){
             Toast.makeText(mContext, "Please enter all the fields.", Toast.LENGTH_SHORT).show();
         }
         else{
             realm.beginTransaction();
+            Course course = mDataSource.get(position);
             course.setName(name);
             course.setCourseCode(code);
             realm.commitTransaction();
@@ -121,7 +121,7 @@ public class CourseAdapter extends BaseSwipeAdapter {
 
     }
 
-    private void callConfirmationDialog() {
+    private void callConfirmationDialog(final int position) {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(mContext);
         View view = LayoutInflater.from(mContext).inflate(R.layout.confirmation_dialog, null);
         Button okBtn = (Button) view.findViewById(R.id.delete_dialog);
@@ -129,7 +129,7 @@ public class CourseAdapter extends BaseSwipeAdapter {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteCourse();
+                deleteCourse(position);
             }
         });
         cancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -143,9 +143,10 @@ public class CourseAdapter extends BaseSwipeAdapter {
         dialog.show();
     }
 
-    private void deleteCourse() {
+    private void deleteCourse(int position) {
         dialog.dismiss();
         realm.beginTransaction();
+        Course course = mDataSource.get(position);
         Log.i("DeleteCourse:", "Deleting " + course.getCourseCode());
         course.deleteFromRealm();
         Log.i("DeleteCourse:", "Deleted course");
@@ -177,6 +178,7 @@ public class CourseAdapter extends BaseSwipeAdapter {
 
 
         //Get corresponding habit for row
+        Course course = mDataSource.get(position);
         courseName.setText(course.getCourseCode());
 
         courseGrade.setText(course.getLetterGrade()); //Need to implement course.getGrade() and course.getColor().

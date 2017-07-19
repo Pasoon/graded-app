@@ -22,7 +22,7 @@
             android:background="@color/colorPrimary"
             android:elevation="5dp"
             android:padding="10dp"
-            android:text="Get what you need on your final to hit your target!"
+            android:text="See what you need on your final to hit your target!"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@android:color/background_light"
@@ -93,7 +93,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorAccent"
-            android:elevation="10dp"
             android:orientation="horizontal"
             android:padding="5dp">
 
