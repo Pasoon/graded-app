@@ -61,6 +61,7 @@ public class CourseHubFrag extends Fragment {
         RealmChangeListener changeListener = new RealmChangeListener() {
             @Override
             public void onChange(Object element) {
+                Log.i("CourseHub onChange:", "CourseResults changed!");
                 adapter.notifyDataSetChanged();
             }
         };
