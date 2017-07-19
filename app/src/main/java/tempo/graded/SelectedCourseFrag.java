@@ -174,7 +174,7 @@ public class SelectedCourseFrag extends Fragment {
             public void onClick(View view) {
                 Log.i("Tests Button", "Clicked");
                 LinearLayout tests = (LinearLayout) rootView.findViewById(R.id.tests);
-                 toggleVisibilityAndSetCaret(tests, toggleTests);
+                toggleVisibilityAndSetCaret(tests, toggleTests);
             }
         });
     }
@@ -228,10 +228,8 @@ public class SelectedCourseFrag extends Fragment {
             @Override
             public void onChange(Object element) {
                 Log.i("Selected onChange:", "Course has changed!");
-                adapterAssignment.notifyDataSetChanged();
-                adapterLabs.notifyDataSetChanged();
-                adapterTest.notifyDataSetChanged();
                 if(course.isValid()){
+                    notifyAdapters();
                     updatePage();
                 }
 
@@ -247,6 +245,12 @@ public class SelectedCourseFrag extends Fragment {
 
         setOnClickListenerForListView(testsListView,tests,adapterTest);
         setOnItemLongClickListenerForListView(testsListView,tests);
+    }
+
+    private void notifyAdapters() {
+        adapterAssignment.notifyDataSetChanged();
+        adapterLabs.notifyDataSetChanged();
+        adapterTest.notifyDataSetChanged();
     }
 
     private void setOnClickListenerForListView(final ExpandableHeightListView listView, final RealmList<Deliverable> deliverableType, final DeliverableAdapter adapter){
@@ -330,7 +334,7 @@ public class SelectedCourseFrag extends Fragment {
                 deleteBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        deleteDeliverableBtnClicked();
                     }
                 });
 
@@ -340,6 +344,16 @@ public class SelectedCourseFrag extends Fragment {
                 return true;
             }
         });
+    }
+
+    private void deleteDeliverableBtnClicked() {
+        Log.i("Delete Deliverable Btn", "Clicked");
+        realm.beginTransaction();
+        selectedDeliverable.deleteFromRealm();
+        course.calculateGrade();
+        realm.commitTransaction();
+        Log.i("Delete Deliverable Btn", "Deleted");
+        dialog.dismiss();
     }
 
     private void editDeliverableBtnClicked(){
