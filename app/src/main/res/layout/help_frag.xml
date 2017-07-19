@@ -1,33 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="3">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:weightSum="2">
 
         <TextView
             android:id="@+id/textView12"
-            android:layout_width="wrap_content"
+            android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
+            android:layout_weight="1.5"
+            android:layout_gravity="center_vertical"
+            android:text="The plus icon, indicated at the top right of the coursehub and selected course page will allow you to add a course or deliverable. " />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:adjustViewBounds="true"
+            android:maxWidth="42dp"
+            android:maxHeight="42dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/plus" />
     </LinearLayout>
 
-    <LinearLayout
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"></LinearLayout>
+        android:layout_height="1dp"
+        android:background="@drawable/courselistgradient" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"></LinearLayout>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:layout_gravity="center_vertical"
+            android:text="The hamburger navbar button indicated at the top left of the screen will open the nav bar when pressed, here users can access all the features graded has to offer." />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:adjustViewBounds="true"
+            android:maxHeight="42dp"
+            android:maxWidth="42dp"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center_vertical"
+            app:srcCompat="@drawable/navbaricon" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/courselistgradient" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"></LinearLayout>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1.5"
+            android:text="Down arrow is used to indicate that the current tab can be expandable. When down the tab is currently collapsed. Up arrow indicates that the current table has been expanded. "/>
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:adjustViewBounds="true"
+            android:maxHeight="55dp"
+            android:maxWidth="42dp"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center_vertical"
+            app:srcCompat="@drawable/notexpanded" />
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:adjustViewBounds="true"
+            android:maxHeight="40dp"
+            android:maxWidth="42dp"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center_vertical"
+            app:srcCompat="@drawable/expandedicon" />
+    </LinearLayout>
+
+
 </LinearLayout>

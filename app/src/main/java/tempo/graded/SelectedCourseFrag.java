@@ -384,28 +384,31 @@ public class SelectedCourseFrag extends Fragment {
 
     public void okBtnClicked() {
 
-        realm.beginTransaction();
-        course.calculateTotalWeight();
-        Double deliverableWeight = Double.parseDouble(DeliverableWeight.getText().toString());
-        Double weightLimit = deliverableWeight + course.getTotalWeight();
-        if (!DeliverableWeight.getText().toString().isEmpty() && !DeliverableName.getText().toString().isEmpty()
-                && Double.parseDouble(DeliverableWeight.getText().toString()) <= 100 && weightLimit <= 100){
-            createDeliverable();
-            Toast.makeText(getActivity(), "Deliverable Added!", Toast.LENGTH_SHORT).show();
-            dialog.dismiss();
-            updatePage();
 
+        if (DeliverableWeight.getText().toString().isEmpty()) {
+            Toast.makeText(getActivity(), "Please enter a weight", Toast.LENGTH_SHORT).show();
         } else {
+            realm.beginTransaction();
+            course.calculateTotalWeight();
+            Double deliverableWeight = Double.parseDouble(DeliverableWeight.getText().toString());
+            Double weightLimit = deliverableWeight + course.getTotalWeight();
+            if (!DeliverableWeight.getText().toString().isEmpty() && !DeliverableName.getText().toString().isEmpty()
+                    && Double.parseDouble(DeliverableWeight.getText().toString()) <= 100 && weightLimit <= 100) {
+                createDeliverable();
+                Toast.makeText(getActivity(), "Deliverable Added!", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                updatePage();
 
-            if(weightLimit > 100){
-                Toast.makeText(getActivity(), "You have exceeded 100% weight limit for the course.", Toast.LENGTH_SHORT).show();
+            } else {
+                if (weightLimit > 100) {
+                    Toast.makeText(getActivity(), "You have exceeded 100% weight limit for the course.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Please fill in all fields with correct values", Toast.LENGTH_SHORT).show();
+                }
             }
-            else{
-                Toast.makeText(getActivity(), "Please fill in all fields with correct values", Toast.LENGTH_SHORT).show();
-            }
+            realm.commitTransaction();
+
         }
-        realm.commitTransaction();
-
     }
 }
 

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -51,6 +52,8 @@ public class QuickGradeFrag extends Fragment {
                 {
                     Log.i("quickGrade Button", "Button Clicked");
                     quickGradeButtonClicked();
+                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(rootView.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
                 }
             });
             return rootView;

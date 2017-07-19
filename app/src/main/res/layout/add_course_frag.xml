@@ -82,7 +82,7 @@
             android:layout_weight="1.4"
             android:ems="10"
             android:hint="MAT1337"
-            android:inputType="textPersonName"
+            android:inputType="textCapCharacters|textPersonName"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@color/colorPrimary" />
