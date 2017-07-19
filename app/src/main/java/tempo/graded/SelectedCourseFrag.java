@@ -16,9 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DecimalFormat;
 import org.honorato.multistatetogglebutton.MultiStateToggleButton;
 
+import java.text.DecimalFormat;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -208,10 +208,13 @@ public class SelectedCourseFrag extends Fragment {
         RealmChangeListener changeListener = new RealmChangeListener() {
             @Override
             public void onChange(Object element) {
+                Log.i("Selected onChange:", "Course has changed!");
                 adapterAssignment.notifyDataSetChanged();
                 adapterLabs.notifyDataSetChanged();
                 adapterTest.notifyDataSetChanged();
-                updatePage();
+                if(course.isValid()){
+                    updatePage();
+                }
 
             }
         };
