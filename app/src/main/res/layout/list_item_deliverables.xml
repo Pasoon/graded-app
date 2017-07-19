@@ -21,6 +21,8 @@
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.7"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="Assignment 1"
             android:textColor="@color/colorAccent"
             android:textSize="18sp" />
@@ -37,17 +39,17 @@
                 android:id="@+id/weightIcon"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_weight=".4"
-                app:srcCompat="@drawable/weight_icon" />
+                android:layout_weight=".5"
+                app:srcCompat="@drawable/weight_kg" />
 
             <TextView
                 android:id="@+id/itemWeight"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.6"
+                android:layout_weight="1.5"
                 android:paddingLeft="3dp"
                 android:text="5.0%"
-                android:textAlignment="viewStart"
+                android:textAlignment="textStart"
                 android:textAllCaps="true"
                 android:textColor="@color/colorAccent"
                 android:textSize="18sp" />
@@ -57,7 +59,7 @@
             android:id="@+id/itemGrade"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".55"
+            android:layout_weight=".5"
             android:text="-"
             android:textAlignment="textEnd"
             android:textAllCaps="true"
