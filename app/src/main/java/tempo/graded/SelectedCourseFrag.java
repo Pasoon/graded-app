@@ -343,13 +343,19 @@ public class SelectedCourseFrag extends Fragment {
     }
 
     private void editDeliverableBtnClicked(){
+
         if (newDeliverableWeight.getText().toString().isEmpty() || Double.parseDouble(newDeliverableWeight.getText().toString()) > 100) {
             Toast.makeText(getActivity(), "Please enter a valid weight", Toast.LENGTH_SHORT).show();
         } else {
             realm.beginTransaction();
             Double deliverableWeight = Double.parseDouble(newDeliverableWeight.getText().toString());
             course.calculateTotalWeight();
-            Double weightLimit = (java.lang.Math.abs((selectedDeliverable.getWeight())-deliverableWeight))+ course.getTotalWeight();
+            Double weightLimit = java.lang.Math.abs((((selectedDeliverable.getWeight())-deliverableWeight))-course.getTotalWeight());
+//            System.out.println("New Del Weight: "+newDeliverableWeight.getText().toString());
+//            System.out.println("Total Weight: "+course.getTotalWeight());
+//            System.out.println("Previous Weight: "+selectedDeliverable.getWeight());
+//            System.out.println("New Weight - Previous Weight: "+java.lang.Math.abs((selectedDeliverable.getWeight()-deliverableWeight)));
+//            System.out.println("Weight Limit: "+weightLimit);
             if (!newDeliverableWeight.getText().toString().isEmpty() && !newDeliverableName.getText().toString().isEmpty()
                     && Double.parseDouble(newDeliverableWeight.getText().toString()) <= 100 && weightLimit <= 100) {
                 editDeliverable(Double.parseDouble(newDeliverableWeight.getText().toString()),newDeliverableName.getText().toString());
