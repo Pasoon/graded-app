@@ -62,8 +62,8 @@ public class SelectedCourseFrag extends Fragment {
         rootView = inflater.inflate(R.layout.selected_course_frag, container, false);
         Long id = getArguments().getLong("CourseID");
         course = realm.where(Course.class).equalTo("id", id).findFirst();
-        setLayout();
         updatePage();
+        setLayout();
         ImageButton addBtn = (ImageButton) getActivity().findViewById(R.id.addItem);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,8 +107,14 @@ public class SelectedCourseFrag extends Fragment {
         titleText.setText(code);
 
 
-        //getCourseGrade, get CourseCompletion, getCourseAverage should all be called;
+        TextView courseGrade = (TextView) rootView.findViewById(R.id.Grade);
+        TextView courseLetterGrade = (TextView) rootView.findViewById(R.id.GradeLetter);
 
+        System.out.println("WE HERE: "+course.getCourseCompletion());
+        if(course.getCourseCompletion() == 0){
+            courseGrade.setText("-");
+            courseLetterGrade.setText("-");
+        }
         //setup list views
         initListViews();
 
@@ -123,17 +129,24 @@ public class SelectedCourseFrag extends Fragment {
         String name = course.getName();
         String letterGrade = course.getLetterGrade();
         Double grade = course.getGrade();
-        Double totalWeight = course.getTotalWeight();
+        Double completion = course.getCourseCompletion();
 
         TextView courseName = (TextView) rootView.findViewById(R.id.CourseName);
         TextView courseGrade = (TextView) rootView.findViewById(R.id.Grade);
         TextView courseLetterGrade = (TextView) rootView.findViewById(R.id.GradeLetter);
         TextView courseCompletion = (TextView) rootView.findViewById(R.id.CourseCompletion);
 
-        courseName.setText(name);
-        courseGrade.setText(new DecimalFormat("##.##").format(grade)+"%");
-        courseLetterGrade.setText(letterGrade);
-        courseCompletion.setText(new DecimalFormat("##.##").format(totalWeight)+"%");
+        if(completion == 0){
+            courseGrade.setText("-");
+            courseLetterGrade.setText("-");
+            courseCompletion.setText(new DecimalFormat("##.##").format(completion)+"%");
+        }
+        else{
+            courseName.setText(name);
+            courseGrade.setText(new DecimalFormat("##.##").format(grade)+"%");
+            courseLetterGrade.setText(letterGrade);
+            courseCompletion.setText(new DecimalFormat("##.##").format(completion)+"%");
+        }
     }
 
 
@@ -231,7 +244,7 @@ public class SelectedCourseFrag extends Fragment {
                     @Override
                     public void onClick(View view){
                         realm.beginTransaction();
-                        if(!deliverableGrade.getText().toString().isEmpty()){
+                        if(!deliverableGrade.getText().toString().isEmpty() && Double.parseDouble(deliverableGrade.getText().toString()) <= 100){
                             Deliverable selectedDeliverable = assignments.get(position);
                             selectedDeliverable.setGrade(Double.parseDouble(deliverableGrade.getText().toString()));
                             Toast.makeText(getActivity(), "Grade Added!", Toast.LENGTH_SHORT).show();
@@ -240,7 +253,7 @@ public class SelectedCourseFrag extends Fragment {
                         }
 
                         else{
-                            Toast.makeText(getActivity(), "Please fill in all fields.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Please Enter a Valid Grade (0 - 100)", Toast.LENGTH_SHORT).show();
                         }
                         course.calculateGrade();
                         realm.commitTransaction();
@@ -268,7 +281,7 @@ public class SelectedCourseFrag extends Fragment {
                     @Override
                     public void onClick(View view){
                         realm.beginTransaction();
-                        if(!deliverableGrade.getText().toString().isEmpty()){
+                        if(!deliverableGrade.getText().toString().isEmpty() && Double.parseDouble(deliverableGrade.getText().toString()) <= 100){
                             Deliverable selectedDeliverable = labs.get(position);
                             selectedDeliverable.setGrade(Double.parseDouble(deliverableGrade.getText().toString()));
                             Toast.makeText(getActivity(), "Grade Added!", Toast.LENGTH_SHORT).show();
@@ -277,7 +290,7 @@ public class SelectedCourseFrag extends Fragment {
                         }
 
                         else{
-                            Toast.makeText(getActivity(), "Please fill in all fields.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Please Enter a Valid Grade (0 - 100)", Toast.LENGTH_SHORT).show();
                         }
                         course.calculateGrade();
                         realm.commitTransaction();
@@ -304,7 +317,7 @@ public class SelectedCourseFrag extends Fragment {
                     @Override
                     public void onClick(View view){
                         realm.beginTransaction();
-                        if(!deliverableGrade.getText().toString().isEmpty()){
+                        if(!deliverableGrade.getText().toString().isEmpty() && Double.parseDouble(deliverableGrade.getText().toString()) <= 100){
                             Deliverable selectedDeliverable = tests.get(position);
                             selectedDeliverable.setGrade(Double.parseDouble(deliverableGrade.getText().toString()));
                             Toast.makeText(getActivity(), "Grade Added!", Toast.LENGTH_SHORT).show();
@@ -313,7 +326,7 @@ public class SelectedCourseFrag extends Fragment {
                         }
 
                         else{
-                            Toast.makeText(getActivity(), "Please fill in all fields.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Please Enter a Valid Grade (0 - 100)", Toast.LENGTH_SHORT).show();
                         }
                         course.calculateGrade();
                         realm.commitTransaction();
@@ -328,7 +341,6 @@ public class SelectedCourseFrag extends Fragment {
     }
 
     private void createDeliverable(){
-        realm.beginTransaction();
 
         int i = dType.getValue();
         String dN = DeliverableName.getText().toString();
@@ -360,22 +372,34 @@ public class SelectedCourseFrag extends Fragment {
                 course.getTests().add(deliverable);
                 break;
         }
-        realm.commitTransaction();
+
     }
 
 
     public void okBtnClicked() {
 
-        if (!DeliverableWeight.getText().toString().isEmpty() && !DeliverableName.getText().toString().isEmpty()) {
-            System.out.println("Check1");
+        realm.beginTransaction();
+        course.calculateTotalWeight();
+        Double deliverableWeight = Double.parseDouble(DeliverableWeight.getText().toString());
+        Double weightLimit = deliverableWeight + course.getTotalWeight();
+        if (!DeliverableWeight.getText().toString().isEmpty() && !DeliverableName.getText().toString().isEmpty()
+                && Double.parseDouble(DeliverableWeight.getText().toString()) <= 100 && weightLimit <= 100){
             createDeliverable();
-            System.out.println("Check2");
             Toast.makeText(getActivity(), "Deliverable Added!", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
+            updatePage();
 
         } else {
-            Toast.makeText(getActivity(), "Please fill in all fields.", Toast.LENGTH_SHORT).show();
+
+            if(weightLimit > 100){
+                Toast.makeText(getActivity(), "You have exceeded 100% weight limit for the course.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(getActivity(), "Please fill in all fields with correct values", Toast.LENGTH_SHORT).show();
+            }
         }
+        realm.commitTransaction();
+
     }
 }
 

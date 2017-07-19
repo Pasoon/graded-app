@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 /**
@@ -45,8 +46,8 @@ public class CourseHubFrag extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Realm.init(getActivity());
-//        RealmConfiguration configuration = new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build();
-//        Realm.deleteRealm(configuration); //For flushing Realm DB
+        //RealmConfiguration configuration = new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build();
+        //Realm.deleteRealm(configuration); //For flushing Realm DB
         realm = Realm.getDefaultInstance();
     }
 
@@ -154,7 +155,7 @@ public class CourseHubFrag extends Fragment {
 
         }
         else{
-            Toast.makeText(getActivity(), "Please fill in all fields.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Please fill in all fields with correct values", Toast.LENGTH_SHORT).show();
         }
     }
 

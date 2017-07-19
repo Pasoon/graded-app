@@ -29,7 +29,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="92.3%"
-            android:inputType="textPersonName"
+            android:inputType="number|numberDecimal"
             android:textAlignment="center"
             android:textAllCaps="false" />
 
