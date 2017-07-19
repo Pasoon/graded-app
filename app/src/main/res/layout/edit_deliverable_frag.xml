@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mstb="http://schemas.android.com/apk/res-auto"
+    xmlns:mtsb="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/EditInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:background="@drawable/courselistgradient"
+        android:padding="5dp"
+        android:text="Edit Deliverable"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textColor="@android:color/background_light"
+        android:textSize="20sp" />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:ems="7"
+            android:text="Name"
+            android:textAlignment="viewStart"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/newDnInput"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.25"
+            android:ems="7"
+            android:hint="Project Phase 1"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:ems="7"
+            android:text="Weight"
+            android:textAlignment="viewStart"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/newDwInput"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.25"
+            android:ems="7"
+            android:hint="%"
+            android:inputType="number|numberDecimal"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/DoneEdit"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/courselistgradient"
+        android:elevation="24dp"
+        android:text="Done"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp" />
+
+</LinearLayout>

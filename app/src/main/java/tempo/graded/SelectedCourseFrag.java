@@ -35,6 +35,8 @@ public class SelectedCourseFrag extends Fragment {
     private Realm realm;
     private EditText DeliverableName;
     private EditText DeliverableWeight;
+    private EditText newDeliverableName;
+    private EditText newDeliverableWeight;
     private AlertDialog dialog;
     private Course course;
     private DeliverableAdapter adapterAssignment;
@@ -43,6 +45,7 @@ public class SelectedCourseFrag extends Fragment {
     private ImageButton toggleTests;
     private ImageButton toggleLabs;
     private ImageButton toggleAssignments;
+    private Deliverable selectedDeliverable;
     private MultiStateToggleButton dType;
     private Toolbar toolbar;
 
@@ -236,7 +239,18 @@ public class SelectedCourseFrag extends Fragment {
         };
         course.addChangeListener(changeListener);
 
-        assignmentsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        setOnClickListenerForListView(assignmentsListView, assignments, adapterAssignment);
+        setOnItemLongClickListenerForListView(assignmentsListView, assignments);
+
+        setOnClickListenerForListView(labsListView, labs, adapterLabs);
+        setOnItemLongClickListenerForListView(labsListView, labs);
+
+        setOnClickListenerForListView(testsListView,tests,adapterTest);
+        setOnItemLongClickListenerForListView(testsListView,tests);
+    }
+
+    private void setOnClickListenerForListView(final ExpandableHeightListView listView, final RealmList<Deliverable> deliverableType, final DeliverableAdapter adapter){
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position,
                                     long id) {
@@ -251,10 +265,10 @@ public class SelectedCourseFrag extends Fragment {
                     public void onClick(View view){
                         realm.beginTransaction();
                         if(!deliverableGrade.getText().toString().isEmpty() && Double.parseDouble(deliverableGrade.getText().toString()) <= 100){
-                            Deliverable selectedDeliverable = assignments.get(position);
+                            selectedDeliverable = deliverableType.get(position);
                             selectedDeliverable.setGrade(Double.parseDouble(deliverableGrade.getText().toString()));
                             Toast.makeText(getActivity(), "Grade Added!", Toast.LENGTH_SHORT).show();
-                            assignmentsListView.setAdapter(adapterAssignment);
+                            listView.setAdapter(adapter);
                             dialog.dismiss();
                         }
 
@@ -271,93 +285,94 @@ public class SelectedCourseFrag extends Fragment {
                 dialog = alertBuilder.create();
                 dialog.show();
 
-            }
-        });
-
-        assignmentsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
-                view = getActivity().getLayoutInflater().inflate(R.layout.editordelete_deliverable_frag,null);
-                Toast.makeText(getActivity(), "YOOOOOOO", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-
-        labsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position,
-                                    long id) {
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
-                view = getActivity().getLayoutInflater().inflate(R.layout.enter_grade_frag,null);
-                final EditText deliverableGrade = (EditText) view.findViewById(R.id.DeliverableGradeInput);
-                Button enterBtn = (Button) view.findViewById(R.id.Enter);
-
-                enterBtn.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View view){
-                        realm.beginTransaction();
-                        if(!deliverableGrade.getText().toString().isEmpty() && Double.parseDouble(deliverableGrade.getText().toString()) <= 100){
-                            Deliverable selectedDeliverable = labs.get(position);
-                            selectedDeliverable.setGrade(Double.parseDouble(deliverableGrade.getText().toString()));
-                            Toast.makeText(getActivity(), "Grade Added!", Toast.LENGTH_SHORT).show();
-                            labsListView.setAdapter(adapterLabs);
-                            dialog.dismiss();
-                        }
-
-                        else{
-                            Toast.makeText(getActivity(), "Please Enter a Valid Grade (0 - 100)", Toast.LENGTH_SHORT).show();
-                        }
-                        course.calculateGrade();
-                        realm.commitTransaction();
-                    }
-                });
-
-                alertBuilder.setView(view);
-                dialog = alertBuilder.create();
-                dialog.show();
-
-            }
-        });
-
-        testsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position,
-                                    long id) {
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
-                view = getActivity().getLayoutInflater().inflate(R.layout.enter_grade_frag,null);
-                final EditText deliverableGrade = (EditText) view.findViewById(R.id.DeliverableGradeInput);
-                Button enterBtn = (Button) view.findViewById(R.id.Enter);
-
-                enterBtn.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View view){
-                        realm.beginTransaction();
-                        if(!deliverableGrade.getText().toString().isEmpty() && Double.parseDouble(deliverableGrade.getText().toString()) <= 100){
-                            Deliverable selectedDeliverable = tests.get(position);
-                            selectedDeliverable.setGrade(Double.parseDouble(deliverableGrade.getText().toString()));
-                            Toast.makeText(getActivity(), "Grade Added!", Toast.LENGTH_SHORT).show();
-                            testsListView.setAdapter(adapterTest);
-                            dialog.dismiss();
-                        }
-
-                        else{
-                            Toast.makeText(getActivity(), "Please Enter a Valid Grade (0 - 100)", Toast.LENGTH_SHORT).show();
-                        }
-                        course.calculateGrade();
-                        realm.commitTransaction();
-                    }
-                });
-
-                alertBuilder.setView(view);
-                dialog = alertBuilder.create();
-                dialog.show();
             }
         });
     }
 
-    private void assignmentsListViewListener(){
+    private void setOnItemLongClickListenerForListView(final ExpandableHeightListView listView, final RealmList<Deliverable> deliverableType){
 
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long id) {
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+                view = getActivity().getLayoutInflater().inflate(R.layout.editordelete_deliverable_frag,null);
+                Button editBtn = (Button) view.findViewById(R.id.EditDeliverable);
+                Button deleteBtn = (Button) view.findViewById(R.id.DeleteDeliverable);
+                TextView Info = (TextView) view.findViewById(R.id.EditOrDeleteInfo);
+                selectedDeliverable = deliverableType.get(position);
+                Info.setText("What do you want to do with "+selectedDeliverable.getName()+"?");
+                editBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+                        view = getActivity().getLayoutInflater().inflate(R.layout.edit_deliverable_frag,null);
+                        TextView ViewTitle = (TextView) view.findViewById(R.id.EditInfo);
+                        newDeliverableName = (EditText) view.findViewById(R.id.newDnInput);
+                        newDeliverableWeight = (EditText) view.findViewById(R.id.newDwInput);
+                        newDeliverableName.setText(selectedDeliverable.getName());
+                        newDeliverableWeight.setText(Double.toString(selectedDeliverable.getWeight()));
+
+                        Button EditDoneBtn = (Button) view.findViewById(R.id.DoneEdit);
+                        EditDoneBtn.setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View view){
+                                editDeliverableBtnClicked();
+                            }
+                        });
+                        ViewTitle.setText("Edit "+selectedDeliverable.getName());
+                        alertBuilder.setView(view);
+                        dialog = alertBuilder.create();
+                        dialog.show();
+                    }
+                });
+
+                deleteBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+
+                alertBuilder.setView(view);
+                dialog = alertBuilder.create();
+                dialog.show();
+                return true;
+            }
+        });
+    }
+
+    private void editDeliverableBtnClicked(){
+        if (newDeliverableWeight.getText().toString().isEmpty() || Double.parseDouble(newDeliverableWeight.getText().toString()) > 100) {
+            Toast.makeText(getActivity(), "Please enter a valid weight", Toast.LENGTH_SHORT).show();
+        } else {
+            realm.beginTransaction();
+            Double deliverableWeight = Double.parseDouble(newDeliverableWeight.getText().toString());
+            course.calculateTotalWeight();
+            Double weightLimit = (java.lang.Math.abs((selectedDeliverable.getWeight())-deliverableWeight))+ course.getTotalWeight();
+            if (!newDeliverableWeight.getText().toString().isEmpty() && !newDeliverableName.getText().toString().isEmpty()
+                    && Double.parseDouble(newDeliverableWeight.getText().toString()) <= 100 && weightLimit <= 100) {
+                editDeliverable(Double.parseDouble(newDeliverableWeight.getText().toString()),newDeliverableName.getText().toString());
+                Toast.makeText(getActivity(), "Deliverable Edited", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+
+            } else {
+                if (weightLimit > 100) {
+                    Toast.makeText(getActivity(), "You have exceeded 100% weight limit for the course.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Please fill in all fields with correct values", Toast.LENGTH_SHORT).show();
+                }
+            }
+            realm.commitTransaction();
+
+        }
+    }
+
+    private void editDeliverable(double weight, String name){
+        selectedDeliverable.setName(name);
+        selectedDeliverable.setWeight(weight);
+        course.calculateGrade();
+        updatePage();
     }
 
     private void createDeliverable(){
@@ -399,8 +414,8 @@ public class SelectedCourseFrag extends Fragment {
     public void okBtnClicked() {
 
 
-        if (DeliverableWeight.getText().toString().isEmpty()) {
-            Toast.makeText(getActivity(), "Please enter a weight", Toast.LENGTH_SHORT).show();
+        if (DeliverableWeight.getText().toString().isEmpty() || Double.parseDouble(DeliverableWeight.getText().toString()) > 100) {
+            Toast.makeText(getActivity(), "Please enter a valid weight", Toast.LENGTH_SHORT).show();
         } else {
             realm.beginTransaction();
             course.calculateTotalWeight();
