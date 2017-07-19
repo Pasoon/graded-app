@@ -88,6 +88,7 @@ public class SelectedCourseFrag extends Fragment {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 okBtnClicked();
             }
         });
@@ -109,12 +110,14 @@ public class SelectedCourseFrag extends Fragment {
 
         TextView courseGrade = (TextView) rootView.findViewById(R.id.Grade);
         TextView courseLetterGrade = (TextView) rootView.findViewById(R.id.GradeLetter);
+        TextView courseName = (TextView) rootView.findViewById(R.id.CourseName);
 
-        System.out.println("WE HERE: "+course.getCourseCompletion());
         if(course.getCourseCompletion() == 0){
             courseGrade.setText("-");
             courseLetterGrade.setText("-");
         }
+
+        courseName.setText(course.getName());
         //setup list views
         initListViews();
 

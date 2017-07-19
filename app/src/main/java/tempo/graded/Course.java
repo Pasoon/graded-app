@@ -59,6 +59,7 @@ public class Course extends RealmObject {
         testsgrade = 0;
         totalweight = 0;
         grade = 0;
+        coursecompletion = 0;
 
         for (Deliverable deliverable : assignments) {
             if(deliverable.getGrade() != 0){
