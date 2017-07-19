@@ -19,6 +19,7 @@ public class Course extends RealmObject {
     private RealmList<Deliverable> labs = new RealmList<>();
     private RealmList<Deliverable> tests = new RealmList<>();
     private double assignmentsgrade;
+    private double coursecompletion;
     private double labsgrade;
     private double testsgrade;
     private double totalweight;
@@ -29,6 +30,28 @@ public class Course extends RealmObject {
     public double getTotalWeight(){
         return totalweight*100;
     }
+
+    public void calculateTotalWeight(){
+
+        totalweight = 0;
+        for (Deliverable deliverable : assignments) {
+            totalweight = totalweight + deliverable.getWeight()/100;
+        }
+
+        for (Deliverable deliverable : labs) {
+            totalweight = totalweight + deliverable.getWeight()/100;
+        }
+
+        for (Deliverable deliverable : tests) {
+            totalweight = totalweight + deliverable.getWeight()/100;
+        }
+
+    }
+
+    public double getCourseCompletion(){
+        return coursecompletion*100;
+    }
+
     public void calculateGrade(){
 
         assignmentsgrade = 0;
@@ -36,28 +59,30 @@ public class Course extends RealmObject {
         testsgrade = 0;
         totalweight = 0;
         grade = 0;
+        coursecompletion = 0;
+
         for (Deliverable deliverable : assignments) {
             if(deliverable.getGrade() != 0){
                 assignmentsgrade = assignmentsgrade + (deliverable.getGrade()/100 * deliverable.getWeight()/100);
-                totalweight = totalweight + deliverable.getWeight()/100;
+                coursecompletion = coursecompletion + deliverable.getWeight()/100;
             }
         }
 
         for (Deliverable deliverable : labs) {
             if(deliverable.getGrade() != 0){
                 labsgrade = labsgrade + (deliverable.getGrade()/100 * deliverable.getWeight()/100);
-                totalweight = totalweight + deliverable.getWeight()/100;
+                coursecompletion = coursecompletion + deliverable.getWeight()/100;
             }
         }
 
         for (Deliverable deliverable : tests) {
             if(deliverable.getGrade() != 0){
                 testsgrade = testsgrade + (deliverable.getGrade()/100 * deliverable.getWeight()/100);
-                totalweight = totalweight + deliverable.getWeight()/100;
+                coursecompletion = coursecompletion + deliverable.getWeight()/100;
             }
         }
 
-        grade = (assignmentsgrade + labsgrade + testsgrade)/totalweight;
+        grade = (assignmentsgrade + labsgrade + testsgrade)/coursecompletion;
         grade = grade * 100;
         this.setGrade(grade);
         this.setLetterGrade();
