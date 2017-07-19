@@ -142,7 +142,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".3"
                     android:background="@android:color/transparent"
-                    app:srcCompat="@drawable/expand_down" />
+                    app:srcCompat="@drawable/expand_up" />
 
             </LinearLayout>
 
@@ -151,7 +151,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <tempo.graded.ExpandableHeightListView
                     android:id="@+id/assignmentsList"
@@ -188,7 +188,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".3"
                     android:background="@android:color/transparent"
-                    app:srcCompat="@drawable/expand_down" />
+                    app:srcCompat="@drawable/expand_up" />
             </LinearLayout>
 
             <LinearLayout
@@ -196,7 +196,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <tempo.graded.ExpandableHeightListView
                     android:id="@+id/LabsList"
@@ -232,7 +232,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".3"
                     android:background="@android:color/transparent"
-                    app:srcCompat="@drawable/expand_down" />
+                    app:srcCompat="@drawable/expand_up" />
             </LinearLayout>
 
             <LinearLayout
@@ -240,7 +240,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <tempo.graded.ExpandableHeightListView
                     android:id="@+id/TestsList"
