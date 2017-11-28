@@ -17,15 +17,6 @@
         android:weightSum="2">
 
         <ImageButton
-            android:id="@+id/delete"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:padding="5dp"
-            swipe:srcCompat="@drawable/delete" />
-
-        <ImageButton
             android:id="@+id/edit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -33,6 +24,14 @@
             android:background="@android:color/transparent"
             android:padding="5dp"
             swipe:srcCompat="@drawable/edit" />
+        <ImageButton
+            android:id="@+id/delete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            swipe:srcCompat="@drawable/delete" />
 
     </LinearLayout>
 
@@ -77,6 +76,7 @@
             android:textColor="@android:color/background_light"
             android:textSize="22sp"
             android:visibility="visible" />
+
     </LinearLayout>
 
 </com.daimajia.swipe.SwipeLayout>

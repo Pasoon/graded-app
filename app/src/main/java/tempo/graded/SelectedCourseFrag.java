@@ -208,9 +208,9 @@ public class SelectedCourseFrag extends Fragment {
         final RealmList<Deliverable> labs = course.getLabs();
         final RealmList<Deliverable> tests = course.getTests();
 
-        adapterAssignment = new DeliverableAdapter(getActivity(), assignments);
-        adapterLabs = new DeliverableAdapter(getActivity(), labs);
-        adapterTest = new DeliverableAdapter(getActivity(), tests);
+        adapterAssignment = new DeliverableAdapter(getActivity(), assignments, course);
+        adapterLabs = new DeliverableAdapter(getActivity(), labs, course);
+        adapterTest = new DeliverableAdapter(getActivity(), tests, course);
 
         final ExpandableHeightListView assignmentsListView = (ExpandableHeightListView) rootView.findViewById(R.id.assignmentsList);
         assignmentsListView.setExpanded(true);
@@ -238,13 +238,10 @@ public class SelectedCourseFrag extends Fragment {
         course.addChangeListener(changeListener);
 
         setOnClickListenerForListView(assignmentsListView, assignments, adapterAssignment);
-        setOnItemLongClickListenerForListView(assignmentsListView, assignments);
 
         setOnClickListenerForListView(labsListView, labs, adapterLabs);
-        setOnItemLongClickListenerForListView(labsListView, labs);
 
         setOnClickListenerForListView(testsListView,tests,adapterTest);
-        setOnItemLongClickListenerForListView(testsListView,tests);
     }
 
     private void notifyAdapters() {
@@ -293,21 +290,7 @@ public class SelectedCourseFrag extends Fragment {
         });
     }
 
-    private void setOnItemLongClickListenerForListView(final ExpandableHeightListView listView, final RealmList<Deliverable> deliverableType){
-
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long id) {
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
-                view = getActivity().getLayoutInflater().inflate(R.layout.editordelete_deliverable_frag,null);
-                Button editBtn = (Button) view.findViewById(R.id.EditDeliverable);
-                Button deleteBtn = (Button) view.findViewById(R.id.DeleteDeliverable);
-                TextView Info = (TextView) view.findViewById(R.id.EditOrDeleteInfo);
-                selectedDeliverable = deliverableType.get(position);
-                Info.setText("What do you want to do with "+selectedDeliverable.getName()+"?");
-                editBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+    public void editClick (View view) {
                         dialog.dismiss();
                         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
                         view = getActivity().getLayoutInflater().inflate(R.layout.edit_deliverable_frag,null);
@@ -328,23 +311,8 @@ public class SelectedCourseFrag extends Fragment {
                         alertBuilder.setView(view);
                         dialog = alertBuilder.create();
                         dialog.show();
-                    }
-                });
-
-                deleteBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        deleteDeliverableBtnClicked();
-                    }
-                });
-
-                alertBuilder.setView(view);
-                dialog = alertBuilder.create();
-                dialog.show();
-                return true;
-            }
-        });
     }
+
 
     private void deleteDeliverableBtnClicked() {
         Log.i("Delete Deliverable Btn", "Clicked");

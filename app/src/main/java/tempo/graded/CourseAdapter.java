@@ -117,8 +117,6 @@ public class CourseAdapter extends BaseSwipeAdapter {
             dialog.dismiss();
 
         }
-
-
     }
 
     private void callConfirmationDialog(final int position) {
