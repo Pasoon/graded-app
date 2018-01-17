@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity
         // Gets the ad view defined in layout/ad_fragment.xml with ad unit ID set in
         // values/strings.xml.
         //mAdView = (AdView) findViewById(R.id.adView);
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-8182480327717122/5079384832");
+        //mInterstitialAd = new InterstitialAd(this);
+        //mInterstitialAd.setAdUnitId("ca-app-pub-8182480327717122/5079384832");
 
         // Create an ad request. Check your logcat output for the hashed device ID to
         // get test ads on a physical device. e.g.
@@ -63,15 +63,15 @@ public class MainActivity extends AppCompatActivity
 
         // Start loading the ad in the background.
         //mAdView.loadAd(adRequest);
-        mInterstitialAd.loadAd(adRequest);
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded(){
-                displayInterstitial();
-            }
-
-
-        });
+        //mInterstitialAd.loadAd(adRequest);
+        //mInterstitialAd.setAdListener(new AdListener() {
+//            @Override
+//            public void onAdLoaded(){
+//                displayInterstitial();
+//            }
+//
+//
+//        });
     }
 
     @Override

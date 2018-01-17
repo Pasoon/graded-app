@@ -159,7 +159,7 @@ public class CourseAdapter extends BaseSwipeAdapter {
         ViewHolder holder;
         if(convertView.getTag()==null){
             holder = new ViewHolder();
-            holder.courseName= (TextView) convertView.findViewById(R.id.courseList_name);
+            holder.courseName = (TextView) convertView.findViewById(R.id.courseList_name);
             holder.gradeColor = (RelativeLayout) convertView.findViewById(R.id.courseList_gradeColor);
             holder.courseGrade = (TextView) convertView.findViewById(R.id.courseList_grade);
 
