@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity
     public Toolbar toolbar;
     private TextView titleText;
     private ImageButton add;
-    private AdView mAdView;
-    private InterstitialAd mInterstitialAd;
+    //private AdView mAdView;
+    //private InterstitialAd mInterstitialAd;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity
         // Create an ad request. Check your logcat output for the hashed device ID to
         // get test ads on a physical device. e.g.
         // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
-        AdRequest adRequest = new AdRequest.Builder().build();
+        //AdRequest adRequest = new AdRequest.Builder().build();
 
         // Start loading the ad in the background.
         //mAdView.loadAd(adRequest);
@@ -145,39 +145,39 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public void displayInterstitial(){
-        if(mInterstitialAd.isLoaded()){
-            mInterstitialAd.show();
-        }
-    }
-
-    @Override
-    public void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();
-
-        }
-        super.onPause();
-
-    }
-
-    /** Called when returning to the activity */
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mAdView != null) {
-            mAdView.resume();
-
-        }
-    }
-
-    /** Called before the activity is destroyed */
-    @Override
-    public void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
-        super.onDestroy();
-    }
+//    public void displayInterstitial(){
+//        if(mInterstitialAd.isLoaded()){
+//            mInterstitialAd.show();
+//        }
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        if (mAdView != null) {
+//            mAdView.pause();
+//
+//        }
+//        super.onPause();
+//
+//    }
+//
+//    /** Called when returning to the activity */
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        if (mAdView != null) {
+//            mAdView.resume();
+//
+//        }
+//    }
+//
+//    /** Called before the activity is destroyed */
+//    @Override
+//    public void onDestroy() {
+//        if (mAdView != null) {
+//            mAdView.destroy();
+//        }
+//        super.onDestroy();
+//    }
 
 }
